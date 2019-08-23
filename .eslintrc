@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb"
+  ],
+  "rules": {
+    "no-return-assign": "off",
+    "no-unused-vars": "off",
+    "react/jsx-props-no-spreading": "off"
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "16.9"
+    }
+  },
+  "env": {
+    "browser": true
+  }
+}
