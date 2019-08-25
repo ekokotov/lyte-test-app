@@ -8,7 +8,14 @@
   "rules": {
     "no-return-assign": "off",
     "no-unused-vars": "off",
-    "react/jsx-props-no-spreading": "off"
+    "no-console": "off",
+    "consistent-return": "off",
+    "no-underscore-dangle": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/destructuring-assignment": "off",
+    "react/state-in-constructor": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "react/forbid-prop-types": "off"
   },
   "settings": {
     "react": {

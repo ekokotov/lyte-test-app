@@ -1,36 +1,77 @@
 import React, { PureComponent } from 'react';
-import Api from '../utils/api';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { inject, observer } from 'mobx-react';
 import Navigation from '../components/navigation';
-// import PropTypes from 'prop-types';
+import FormError from '../components/form-error';
+import FormInput from '../components/form-input';
+import FormButton from '../components/form-button';
 
+@inject('AuthStore')
+@withRouter
+@observer
 class SignIn extends PureComponent {
-  componentDidMount() {
-    Api().then((client) => {
-      client.app_info_list().then(console.log);
-    });
+  email = React.createRef();
+
+  password = React.createRef();
+
+  componentWillUnmount() {
+    this.props.AuthStore.clearErrors();
+  }
+
+  submit = async (event) => {
+    event.preventDefault();
+    const email = this.email.current.value;
+    const password = this.password.current.value;
+    const token = await this.props.AuthStore.signIn(email, password);
+
+    if (token) {
+      this.props.history.push('/event');
+    }
+  };
+
+  inputHasError(inputName) {
+    const { AuthStore } = this.props;
+
+    return AuthStore.errors[inputName] && AuthStore.errors[inputName].length;
   }
 
   render() {
+    const { AuthStore } = this.props;
     return (
       <section className="hero is-fullheight">
         <div className="hero-body">
-          <div className="container has-text-centered">
+          <div className="container">
+            <FormError errors={AuthStore.errors} />
             <div className="column is-4 is-offset-4">
-              {/*<h3 className="title has-text-grey">Sign-in</h3>*/}
-              {/*<p className="subtitle has-text-grey">Please login to proceed.</p>*/}
               <div className="box">
-                <form>
-                  <div className="field">
-                    <div className="control">
-                      <input className="input is-large" type="email" placeholder="Your Email" />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <div className="control">
-                      <input className="input is-large" type="password" placeholder="Your Password" />
-                    </div>
-                  </div>
-                  <button className="button is-block is-primary is-medium is-fullwidth">Login</button>
+                <form onSubmit={this.submit}>
+
+                  <FormInput
+                    label="Email"
+                    name="email"
+                    placeholder="Your email"
+                    type="email"
+                    errors={AuthStore.errors.email}
+                    ref={this.email}
+                  />
+
+                  <FormInput
+                    label="Password"
+                    name="password"
+                    placeholder="Your password"
+                    type="password"
+                    errors={AuthStore.errors.password}
+                    ref={this.password}
+                  />
+                  <FormButton
+                    type="submit"
+                    colorStyle="warning"
+                    isDisabled={AuthStore.inProgress}
+                    isLoading={AuthStore.inProgress}
+                  >
+                    Login
+                  </FormButton>
                 </form>
               </div>
               <Navigation />
@@ -42,8 +83,9 @@ class SignIn extends PureComponent {
   }
 }
 
-SignIn.propTypes = {
-  // id: PropTypes.number,
+SignIn.wrappedComponent.propTypes = {
+  history: PropTypes.object.isRequired,
+  AuthStore: PropTypes.object.isRequired,
 };
 
 export default SignIn;

@@ -18,7 +18,7 @@ module.exports = {
     path: PATH.TMP,
     filename: './rest-events.bundle.js',
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {

@@ -1,9 +1,7 @@
-import authStore from './auth';
+import AuthStore from './auth';
 // import userListStore from './users';
 
-const stores = {
-  authStore,
+export default {
+  AuthStore,
   // eventListStore,
 };
-
-export default stores;

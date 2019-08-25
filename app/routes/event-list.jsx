@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
+import Index from "../components/navigation";
 
 class EventList extends PureComponent {
   render() {
     return (
-      <div> EventList </div>
+      <Index/>
+      // <div> EventList </div>
     );
   }
 }

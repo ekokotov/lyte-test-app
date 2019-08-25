@@ -8,10 +8,10 @@ import SignUp from './sign-up';
 
 const Routes = () => (
   <Switch>
-    <Route path="/login" component={SignIn} />
-    <Route path="/sign-up" component={SignUp} />
-    <PrivateRoute path="/events" component={EventList} />
+    <PrivateRoute path="/event" component={EventList} />
     <PrivateRoute path="/event/:id" component={Event} />
+    <Route path="/sign-up" component={SignUp} />
+    <Route component={SignIn} />
   </Switch>
 );
 

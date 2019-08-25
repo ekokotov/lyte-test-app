@@ -5,24 +5,16 @@ import { Provider } from 'mobx-react';
 import '../theme/index.scss';
 
 import { configure } from 'mobx';
+import Routes from './routes';
 import stores from './store';
-import SignIn from './routes/sign-in';
-import SignUp from './routes/sign-up';
-import PrivateRoute from './routes/private';
-import EventList from './routes/event-list';
-import Event from './routes/event';
 
 configure({ enforceActions: 'observed' });
+window.__stores__ = stores;
 
 render(
   <Provider {...stores}>
     <BrowserRouter>
-      <Switch>
-        <Route path="/sign-in" component={SignIn} />
-        <Route path="/sign-up" component={SignUp} />
-        <PrivateRoute path="/event" component={EventList} />
-        <PrivateRoute path="/event/:id" component={Event} />
-      </Switch>
+      <Routes />
     </BrowserRouter>
   </Provider>, document.getElementById('rest-events-root'),
 );
