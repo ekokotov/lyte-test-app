@@ -5,16 +5,22 @@ class APIRequest {
   }
 
   async request(path, method, data, auth = false) {
-    const request = new Request(`${this.ApiUrl}/${path}`, {
+    const url = new URL(`${this.ApiUrl}/${path}`);
+    const options = {
       method,
-      body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
         ...auth && { Authorization: `Token ${this.session}` },
       },
       mode: 'cors',
-    });
+    };
 
+    if (method.toUpperCase() === 'POST') {
+      options.body = JSON.stringify(data);
+    } else if (method.toUpperCase() === 'GET') {
+      url.search = new URLSearchParams(data);
+    }
+    const request = new Request(url, options);
     const response = await fetch(request);
     const payload = await response.json();
 
@@ -24,7 +30,7 @@ class APIRequest {
     this.throwErrorFromPayload(payload);
   }
 
-  throwErrorFromPayload(payload) {
+  throwErrorFromPayload = (payload) => {
     const error = new Error('Internal Error');
     error.payload = payload;
     /* Response error should follow such format:
@@ -33,4 +39,4 @@ class APIRequest {
   }
 }
 
-export default new APIRequest(process.env.SWAGGER_API_URL);
+export default new APIRequest(process.env.API_BASE_URL);

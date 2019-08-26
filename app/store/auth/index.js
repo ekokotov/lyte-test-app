@@ -9,8 +9,9 @@ class AuthStore {
 
     @observable token = AuthTokenService.getToken();
 
-    @action
-    setProgress = (val) => this.inProgress = val;
+    constructor(rootStore) {
+      this.rootStore = rootStore;
+    }
 
     @action
     setErrors = (error) => this.errors = error.payload || error;
@@ -36,7 +37,7 @@ class AuthStore {
     // (cuz register doesn't returns users token)
     @action
     signUp = async (email, password) => {
-      this.setProgress(true);
+      this.inProgress = true;
       this.clearErrors();
       try {
         await AuthAPI.register(email, password);
@@ -44,13 +45,13 @@ class AuthStore {
       } catch (err) {
         this.setErrors(err);
       } finally {
-        this.setProgress(false);
+        this.inProgress = false;
       }
     };
 
     @action
     signIn = async (email, password) => {
-      this.setProgress(true);
+      this.inProgress = true;
       this.clearErrors();
       try {
         const resp = await AuthAPI.login(email, password);
@@ -59,9 +60,9 @@ class AuthStore {
       } catch (err) {
         this.setErrors(err);
       } finally {
-        this.setProgress(false);
+        this.inProgress = false;
       }
     };
 }
 
-export default new AuthStore();
+export default AuthStore;

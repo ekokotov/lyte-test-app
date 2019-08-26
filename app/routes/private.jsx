@@ -19,7 +19,7 @@ class PrivateRoute extends PureComponent {
 }
 
 PrivateRoute.wrappedComponent.propTypes = {
-  component: PropTypes.func.isRequired,
+  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
   AuthStore: PropTypes.object.isRequired,
 };
 

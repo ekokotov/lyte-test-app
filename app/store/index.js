@@ -1,7 +1,18 @@
 import AuthStore from './auth';
-// import userListStore from './users';
+import EventStore from './events';
 
-export default {
-  AuthStore,
-  // eventListStore,
-};
+class RootStore {
+  constructor() {
+    this.AuthStore = new AuthStore(this);
+    this.EventStore = new EventStore(this);
+  }
+}
+
+const stores = new RootStore();
+
+if (!process.env.IS_PRODUCTION) {
+// For easier debugging
+  window.__stores__ = stores;
+}
+
+export default stores;

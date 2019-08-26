@@ -1,13 +1,9 @@
 import APIRequest from './request';
 
 class AuthAPI {
-    REGISTER_PATH = 'users/register';
+    register = (email, password) => APIRequest.request(process.env.API_USER_SIGNUP_PATH, 'POST', { email, password });
 
-    LOGIN_PATH = 'users/token/';
-
-    register = (email, password) => APIRequest.request(this.REGISTER_PATH, 'POST', { email, password });
-
-    login = (username, password) => APIRequest.request(this.LOGIN_PATH, 'POST', { username, password });
+    login = (username, password) => APIRequest.request(process.env.API_USER_SIGNIN_PATH, 'POST', { username, password });
 }
 
 

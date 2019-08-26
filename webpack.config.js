@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const isPROD = process.env.NODE_ENV === 'production';
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const PATH = {
@@ -70,6 +71,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(dotenv.config().parsed),
+      'process.env.IS_PRODUCTION': isPROD,
     }),
     // new ExtractTextPlugin('css/theme.css'),
   ],

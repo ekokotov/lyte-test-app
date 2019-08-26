@@ -9,7 +9,6 @@ import Routes from './routes';
 import stores from './store';
 
 configure({ enforceActions: 'observed' });
-window.__stores__ = stores;
 
 render(
   <Provider {...stores}>

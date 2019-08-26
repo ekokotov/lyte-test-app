@@ -4,18 +4,22 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    ["@babel/plugin-transform-runtime"],
+    "@babel/plugin-syntax-dynamic-import",
     [
-      "@babel/plugin-proposal-decorators",
+      "@babel/plugin-transform-runtime",
       {
-        "legacy": true
+        "corejs": false,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false
       }
     ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ]
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+    "@babel/plugin-proposal-export-default-from",
+    ["@babel/plugin-transform-async-to-generator", {
+      "module": "mobx",
+      "method": "flow"
+    }]
   ]
 }
