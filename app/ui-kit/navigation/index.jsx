@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
@@ -7,7 +7,7 @@ import styles from './style.m.scss';
 
 @inject('AuthStore')
 @observer
-class Index extends PureComponent {
+class Navigation extends Component {
   state = { breadcrumbs: [] };
 
   static getDerivedStateFromProps(props) {
@@ -46,8 +46,8 @@ class Index extends PureComponent {
   }
 }
 
-Index.wrappedComponent.propTypes = {
+Navigation.wrappedComponent.propTypes = {
   AuthStore: PropTypes.object.isRequired,
 };
 
-export default Index;
+export default Navigation;

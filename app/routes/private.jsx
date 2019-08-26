@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 @inject('AuthStore')
 @observer
-class PrivateRoute extends PureComponent {
+class PrivateRoute extends Component {
   render() {
     const { component: Component, AuthStore, ...rest } = this.props;
     return (

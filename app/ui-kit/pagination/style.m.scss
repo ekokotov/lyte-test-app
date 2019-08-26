@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.page, .break, .previous_page, .next_page {
+  padding: 0 7px;
+}
+
+.active_page {
+  border-bottom: 2px dotted white;
+}
+
+.active_page_link {
+  color: white;
+  font-weight: bold;
+}
+
