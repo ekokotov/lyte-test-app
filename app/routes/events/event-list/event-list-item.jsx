@@ -40,8 +40,8 @@ class EventListItem extends Component {
               </span>
               {' '}
               {event.ticket_price_currency}
-              {` ${formatPrice(event.min_ticket_price)} - ${formatPrice(
-                event.max_ticket_price,
+              {` ${formatPrice(event.min_ticket_price, event.ticket_price_currency)} - ${formatPrice(
+                event.max_ticket_price, event.ticket_price_currency
               )}`}
             </p>
             <div className="tags are-small">
