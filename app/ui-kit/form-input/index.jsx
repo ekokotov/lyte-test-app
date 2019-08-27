@@ -23,7 +23,7 @@ class FormInput extends PureComponent {
             placeholder={this.props.placeholder}
             required={this.props.required}
             value={this.props.value}
-            onChange={this.onInputHandler}
+            onChange={this.props.onChange ? this.onInputHandler : null}
           />
         </div>
         {!!hasErrors && this.props.errors.map((error) => <p key={error} className="help is-danger">{error}</p>)}

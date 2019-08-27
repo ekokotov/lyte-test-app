@@ -11,7 +11,6 @@ class Pagination extends PureComponent {
         pageClassName={style.page}
         breakClassName={style.break}
         activeClassName={style.active_page}
-        activeLinkClassName={style.active_page_link}
         previousClassName={style.previous_page}
         nextClassName={style.next_page}
         {...this.props}
