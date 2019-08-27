@@ -1,11 +1,14 @@
 import APIRequest from './request';
 
 class EventsAPI {
-    getAll = (limit, offset, search, minPrice, maxPrice) => {
-      const params = { limit, offset };
+    getAll = (options) => {
+      const {
+        limit, currentPage, searchQuery, minPrice, maxPrice,
+      } = options;
+      const params = { limit, offset: currentPage * limit };
 
-      if (search && search.length) {
-        params.search = search;
+      if (searchQuery.length) {
+        params.search = searchQuery;
       }
       if (minPrice) {
         params.min_ticket_price = minPrice;

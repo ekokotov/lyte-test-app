@@ -14,24 +14,24 @@ class EventStore {
 
   @observable events = [];
 
-  @observable options = DEFAULT_EVENT_FILTER_VALUES;
+  @observable filters = DEFAULT_EVENT_FILTER_VALUES;
 
-  @action setPage = (newPage) => this.options.currentPage = parseInt(newPage.selected, 10);
+  @action setPage = (newPage) => this.filters.currentPage = parseInt(newPage.selected, 10);
 
-  @action setLimit = (newLimit) => Object.assign(this.options, { limit: parseInt(newLimit, 10) });
+  @action setLimit = (newLimit) => this.filters.limit = parseInt(newLimit, 10);
 
-  @action setSearchQuery = (query) => this.options.searchQuery = query;
+  @action setSearchQuery = (query) => this.filters.searchQuery = query;
 
-  @action setMinPrice = (price) => this.options.minPrice = parseFloat(price) || 0;
+  @action setMinPrice = (price) => this.filters.minPrice = parseFloat(price) || 0;
 
-  @action setMaxPrice = (price) => this.options.maxPrice = parseFloat(price) || 0;
+  @action setMaxPrice = (price) => this.filters.maxPrice = parseFloat(price) || 0;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
     this.reset();
     // to send request on any filter change with throttling
-    reaction(() => entries(this.options), this.getEvents);
-    // or -> deepObserve(this.options, this.getEvents);
+    reaction(() => entries(this.filters), this.getEvents);
+    // or -> deepObserve(this.filters, this.getEvents);
   }
 
   @action
@@ -45,13 +45,7 @@ class EventStore {
     this.inProgress = true;
     this.clearErrors();
     try {
-      const response = await EventsAPI.getAll(
-        this.options.limit,
-        this.options.currentPage * this.options.limit,
-        this.options.searchQuery,
-        this.options.minPrice,
-        this.options.maxPrice,
-      );
+      const response = await EventsAPI.getAll(this.filters);
 
       this.events = response.results;
       this.totalEvents = response.count;
@@ -65,7 +59,7 @@ class EventStore {
   // we need this method to reset event filters view
   @action
   reset = () => {
-    Object.assign(this.options, DEFAULT_EVENT_FILTER_VALUES);
+    Object.assign(this.filters, DEFAULT_EVENT_FILTER_VALUES);
     this.errors = null;
     this.inProgress = false;
   }
