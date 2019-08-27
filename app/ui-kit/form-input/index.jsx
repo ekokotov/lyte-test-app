@@ -10,7 +10,7 @@ class FormInput extends PureComponent {
 
     return (
       <div className="field">
-        {this.props.label && <label className="label" htmlFor={this.props.name}>{this.props.label}</label>}
+        {this.props.label && <label className="label is-small" htmlFor={this.props.name}>{this.props.label}</label>}
         <div className="control">
           <input
             ref={this.props.innerRef}
@@ -36,7 +36,7 @@ FormInput.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   errors: PropTypes.arrayOf(PropTypes.string),
   required: PropTypes.bool,
   innerRef: PropTypes.oneOfType([

@@ -41,10 +41,9 @@ class EventFilters extends Component {
         </div>
         <div className={classNames('panel-block', styles.panel_block)}>
           <div className="field">
-            <label className="label is-small">Ticket price range: </label>
             <div className="field-body">
-              <FormInput placeholder="Min price" name="price" type="number" size="normal" onChange={setMinPrice} value={filters.minPrice} />
-              <FormInput placeholder="Max price" name="price" type="number" size="normal" onChange={setMaxPrice} value={filters.maxPrice} />
+              <FormInput label="Min price" name="price" type="number" size="normal" onChange={setMinPrice} value={filters.minPrice} />
+              <FormInput label="Max price" name="price" type="number" size="normal" onChange={setMaxPrice} value={filters.maxPrice} />
             </div>
           </div>
         </div>

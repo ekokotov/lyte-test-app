@@ -1,5 +1,6 @@
 .root {
-  //background-color: white;
+  position: sticky;
+  top: 50px;
 }
 .panel_tabs, .panel_block,.panel_heading, .panel_controls, .panel_price {
   display: block;
