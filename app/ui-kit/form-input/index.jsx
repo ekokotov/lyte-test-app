@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import debounce from 'lodash/debounce';
 
 class FormInput extends PureComponent {
-  onInputHandler = debounce((text) => this.props.onChange(text.trim()), this.props.debounce);
+  onInputHandler = (e) => this.props.onChange(e.target.value); // debounce((text) => this.props.onChange(text, this.props.debounce);
 
   render() {
     const hasErrors = this.props.errors && this.props.errors.length;
@@ -23,7 +22,8 @@ class FormInput extends PureComponent {
             type={this.props.type}
             placeholder={this.props.placeholder}
             required={this.props.required}
-            onChange={(e) => this.onInputHandler(e.target.value)}
+            value={this.props.value}
+            onChange={this.onInputHandler}
           />
         </div>
         {!!hasErrors && this.props.errors.map((error) => <p key={error} className="help is-danger">{error}</p>)}
@@ -45,16 +45,16 @@ FormInput.propTypes = {
   ]),
   size: PropTypes.oneOf(['large', 'small', 'medium', 'normal']),
   onChange: PropTypes.func,
-  debounce: PropTypes.number,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 FormInput.defaultProps = {
-  required: true,
+  required: false,
   errors: [],
   size: 'large',
-  debounce: 350,
 };
 
 export default React.forwardRef((props, ref) => <FormInput innerRef={ref} {...props} />);
-
-// export default FormInput;

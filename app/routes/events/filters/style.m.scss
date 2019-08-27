@@ -1,7 +1,8 @@
 .root {
   //background-color: white;
 }
-.panel_tabs, .panel_block,.panel_heading, .panel_controls {
+.panel_tabs, .panel_block,.panel_heading, .panel_controls, .panel_price {
+  display: block;
   border-left: none;
   border-right: none;
 }
@@ -11,3 +12,4 @@
 .panel_controls {
   border-bottom: none;
 }
+

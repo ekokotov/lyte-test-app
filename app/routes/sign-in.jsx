@@ -48,6 +48,7 @@ class SignIn extends Component {
                 <form onSubmit={this.submit}>
 
                   <FormInput
+                      required={true}
                     label="Email"
                     name="email"
                     placeholder="Your email"
@@ -57,6 +58,7 @@ class SignIn extends Component {
                   />
 
                   <FormInput
+                      required={true}
                     label="Password"
                     name="password"
                     placeholder="Your password"

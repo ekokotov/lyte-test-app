@@ -5,13 +5,15 @@ import Event from './event';
 import PrivateRoute from './private';
 import SignIn from './sign-in';
 import SignUp from './sign-up';
+import EditEvent from './edit-event';
 
 const Routes = () => (
   <Switch>
-    <PrivateRoute path="/event" component={Events} />
-    <PrivateRoute path="/event/:id" component={Event} />
+    <Route component={Events} />
+    <Route path="/event/:id" component={Event} />
+    <PrivateRoute path="/event/:id/edit" component={EditEvent} />
     <Route path="/sign-up" component={SignUp} />
-    <Route component={SignIn} />
+    <Route path="/sign-in" component={SignIn} />
   </Switch>
 );
 

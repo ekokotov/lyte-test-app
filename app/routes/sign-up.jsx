@@ -47,7 +47,8 @@ class Signup extends Component {
               <div className="box">
                 <form onSubmit={this.submit}>
                   <FormInput
-                    label="Email"
+                      required={true}
+                      label="Email"
                     name="email"
                     placeholder="Your email"
                     type="email"
@@ -56,6 +57,7 @@ class Signup extends Component {
                   />
 
                   <FormInput
+                      required={true}
                     label="Password"
                     name="password"
                     placeholder="Your password"

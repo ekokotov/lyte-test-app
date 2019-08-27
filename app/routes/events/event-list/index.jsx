@@ -10,7 +10,7 @@ import EventListItem from './event-list-item';
 class EventList extends Component {
   render() {
     const {
-      events, options, setPage, inProgress,
+      events, options, setPage, inProgress, totalEvents
     } = this.props.EventStore;
     return (
       <div className={styles.root}>
@@ -24,7 +24,7 @@ class EventList extends Component {
           <div className="list is-hoverable">
             {events.map((event) => <EventListItem event={event} key={event.id} />)}
           </div>
-          <Pagination pageCount={options.total / options.limit} onPageChange={setPage} />
+          <Pagination pageCount={totalEvents / options.limit} onPageChange={setPage} />
         </>
         )}
       </div>

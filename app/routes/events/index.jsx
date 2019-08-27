@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { inject, observer } from 'mobx-react';
+import PropTypes from 'prop-types';
 import EventList from './event-list';
 import EventFilters from './filters';
 import style from './style.m.scss';
 
+@inject('EventStore')
 class Events extends Component {
+  componentDidMount() {
+    this.props.EventStore.getEvents();
+  }
+
   render() {
     return (
       <section className={classNames('hero', 'is-fullheight', 'is-primary', style.root)}>
@@ -24,5 +31,9 @@ class Events extends Component {
     );
   }
 }
+
+Events.wrappedComponent.propTypes = {
+  EventStore: PropTypes.object.isRequired,
+};
 
 export default Events;
