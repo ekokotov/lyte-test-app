@@ -22,9 +22,9 @@ class EventStore {
 
   @action setSearchQuery = (query) => this.filters.searchQuery = query;
 
-  @action setMinPrice = (price) => this.filters.minPrice = parseFloat(price) || 0;
+  @action setMinPrice = (price) => this.filters.minPrice = price;
 
-  @action setMaxPrice = (price) => this.filters.maxPrice = parseFloat(price) || 0;
+  @action setMaxPrice = (price) => this.filters.maxPrice = price;
 
   constructor(rootStore) {
     this.rootStore = rootStore;

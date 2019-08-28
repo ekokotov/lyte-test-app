@@ -1,3 +1,4 @@
+@import "~bulma/sass/utilities/initial-variables";
 .root {
 
 }
@@ -5,6 +6,6 @@
 
 }
 
-.link__active {
-    color: #9E9E9E !important;
+:global(.breadcrumb a).link__active  {
+    color: $grey;
 }

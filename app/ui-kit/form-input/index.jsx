@@ -1,28 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import omit from 'lodash/omit';
 
 class FormInput extends PureComponent {
   onInputHandler = (e) => this.props.onChange(e.target.value); // debounce((text) => this.props.onChange(text, this.props.debounce);
 
   render() {
     const hasErrors = this.props.errors && this.props.errors.length;
+    const inputProps = omit(this.props, ['innerRef', 'errors']);
 
     return (
       <div className="field">
-        {this.props.label && <label className="label is-small" htmlFor={this.props.name}>{this.props.label}</label>}
+        {this.props.label && <label className="label" htmlFor={this.props.name}>{this.props.label}</label>}
         <div className="control">
           <input
+            {...inputProps}
             ref={this.props.innerRef}
             className={classNames('input', `is-${this.props.size}`, {
               'is-danger': hasErrors,
             })}
-            name={this.props.name}
             id={this.props.name}
-            type={this.props.type}
-            placeholder={this.props.placeholder}
-            required={this.props.required}
-            value={this.props.value}
             onChange={this.props.onChange ? this.onInputHandler : null}
           />
         </div>
