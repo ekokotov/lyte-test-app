@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import EventCard from './card';
 import style from './style.m.scss';
+import Loading from '../../ui-kit/loading';
 
 @inject('EventStore')
 @withRouter
@@ -17,7 +18,7 @@ class Event extends PureComponent {
   render() {
     const { selectedEvent: event, inProgress } = this.props.EventStore;
     if (inProgress || !event) {
-      return 'Loading...';
+      return <Loading title="Loading Event..." />;
     }
     return (
       <div className={classNames('container', style.root)}>
