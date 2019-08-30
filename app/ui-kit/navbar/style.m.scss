@@ -1,0 +1,15 @@
+.nav{
+  padding-left: 15px;
+}
+
+.brand img {
+  height: 100%;
+  width: auto;
+}
+
+.nav_active {
+  &:focus {
+    background-color: inherit;
+  }
+    background-color: #e4bf29;
+}

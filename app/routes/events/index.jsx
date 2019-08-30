@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import PropTypes from 'prop-types';
 import EventList from './event-list';
 import EventFilters from './filters';
