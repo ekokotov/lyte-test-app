@@ -17,7 +17,7 @@ class APIRequest {
 
     if (method.toUpperCase() === 'POST') {
       options.body = JSON.stringify(data);
-    } else if (method.toUpperCase() === 'GET') {
+    } else if (method.toUpperCase() === 'GET' && data) {
       url.search = new URLSearchParams(data);
     }
     const request = new Request(url, options);

@@ -14,17 +14,18 @@ class EventListItem extends Component {
         <div className="columns">
           {event.logo_uri && (
             <div className="column is-narrow">
-              <figure className={classNames('image', styles.logo)}>
-                <img src={event.logo_uri} />
-              </figure>
+              {/* <a href={event.uri} target="_blank" rel="noopener noreferrer"> */}
+              <a href={`event/${event.id}`}>
+                <figure className={classNames('image', styles.logo)}>
+                  <img src={event.logo_uri} alt="Event logo" />
+                </figure>
+              </a>
             </div>
           )}
           <div className="column">
-            <p>
-              <a href={event.uri} target="_blank" rel="noopener noreferrer">
-                {event.name}
-              </a>
-            </p>
+            <a href={`event/${event.id}`}>
+              {event.name}
+            </a>
             <p className="is-size-7 has-text-danger">
               <span className="icon">
                 <i className="icon ion-md-calendar" />
@@ -38,10 +39,8 @@ class EventListItem extends Component {
               <span className="icon">
                 <i className="icon ion-md-card" />
               </span>
-              {' '}
-              {event.ticket_price_currency}
               {` ${formatPrice(event.min_ticket_price, event.ticket_price_currency)} - ${formatPrice(
-                event.max_ticket_price, event.ticket_price_currency
+                event.max_ticket_price, event.ticket_price_currency,
               )}`}
             </p>
             <div className="tags are-small">

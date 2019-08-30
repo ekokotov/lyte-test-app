@@ -11,9 +11,16 @@ import stores from './store';
 configure({ enforceActions: 'observed' });
 
 render(
-  <Provider {...stores}>
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
-  </Provider>, document.getElementById('rest-events-root'),
+  <section className="hero is-fullheight is-primary">
+    <div className="hero-body">
+
+      <Provider {...stores}>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </Provider>
+
+    </div>
+  </section>,
+  document.getElementById('rest-events-root'),
 );

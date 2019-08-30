@@ -18,6 +18,7 @@ module.exports = {
   output: {
     path: PATH.TMP,
     filename: './rest-events.bundle.js',
+    publicPath: '/',
   },
   devtool: 'inline-source-map',
   module: {

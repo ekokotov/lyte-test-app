@@ -1,9 +1,10 @@
-import {
-  action, observable, reaction, entries,
-} from 'mobx';
+import {action, entries, observable, reaction} from 'mobx';
 import throttle from 'lodash/throttle';
 import EventsAPI from '../../api/events';
-import { DEFAULT_EVENT_FILTER_VALUES, SEARCH_EVENTS_TROTTLE } from './const';
+import {
+  DEFAULT_EVENT_FILTER_VALUES,
+  SEARCH_EVENTS_TROTTLE_DELAY,
+} from './const';
 
 class EventStore {
   totalEvents = 0;
@@ -13,6 +14,8 @@ class EventStore {
   @observable errors;
 
   @observable events = [];
+
+  @observable selectedEvent;
 
   @observable filters = DEFAULT_EVENT_FILTER_VALUES;
 
@@ -54,7 +57,20 @@ class EventStore {
     } finally {
       this.inProgress = false;
     }
-  }, SEARCH_EVENTS_TROTTLE);
+  }, SEARCH_EVENTS_TROTTLE_DELAY);
+
+  @action
+  getById = async (eventId) => {
+    this.inProgress = true;
+    this.clearErrors();
+    try {
+      this.selectedEvent = await EventsAPI.getById(eventId);
+    } catch (err) {
+      this.setErrors(err);
+    } finally {
+      this.inProgress = false;
+    }
+  };
 
   // we need this method to reset event filters view
   @action

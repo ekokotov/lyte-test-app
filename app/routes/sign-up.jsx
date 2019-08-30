@@ -30,57 +30,47 @@ class Signup extends Component {
     }
   };
 
-  inputHasError(inputName) {
-    const { AuthStore } = this.props;
-
-    return AuthStore.errors[inputName] && AuthStore.errors[inputName].length;
-  }
-
   render() {
     const { AuthStore } = this.props;
     return (
-      <section className="hero is-fullheight is-primary">
-        <div className="hero-body">
-          <div className="container">
-            <FormError errors={AuthStore.errors} />
-            <div className="column is-4 is-offset-4">
-              <div className="box">
-                <form onSubmit={this.submit}>
-                  <FormInput
-                      required={true}
-                      label="Email"
-                    name="email"
-                    placeholder="Your email"
-                    type="email"
-                    errors={AuthStore.errors.email}
-                    ref={this.email}
-                  />
+      <div className="container">
+        <FormError errors={AuthStore.errors} />
+        <div className="column is-4 is-offset-4">
+          <div className="box">
+            <form onSubmit={this.submit}>
+              <FormInput
+                required
+                label="Email"
+                name="email"
+                placeholder="Your email"
+                type="email"
+                errors={AuthStore.errors.email}
+                ref={this.email}
+              />
 
-                  <FormInput
-                      required={true}
-                    label="Password"
-                    name="password"
-                    placeholder="Your password"
-                    type="password"
-                    errors={AuthStore.errors.password}
-                    ref={this.password}
-                  />
+              <FormInput
+                required
+                label="Password"
+                name="password"
+                placeholder="Your password"
+                type="password"
+                errors={AuthStore.errors.password}
+                ref={this.password}
+              />
 
-                  <FormButton
-                    type="submit"
-                    colorStyle="success"
-                    isDisabled={AuthStore.inProgress}
-                    isLoading={AuthStore.inProgress}
-                  >
+              <FormButton
+                type="submit"
+                colorStyle="success"
+                isDisabled={AuthStore.inProgress}
+                isLoading={AuthStore.inProgress}
+              >
                     Register
-                  </FormButton>
-                </form>
-              </div>
-              <Navigation />
-            </div>
+              </FormButton>
+            </form>
           </div>
+          <Navigation />
         </div>
-      </section>
+      </div>
     );
   }
 }

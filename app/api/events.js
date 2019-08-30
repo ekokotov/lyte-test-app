@@ -16,10 +16,10 @@ class EventsAPI {
       if (maxPrice) {
         params.max_ticket_price = maxPrice;
       }
-      return APIRequest.request(process.env.API_EVENTS_LIST_PATH, 'GET', params);
+      return APIRequest.request(process.env.API_EVENTS_SEARCH_PATH, 'GET', params);
     };
 
-    getById = (id) => APIRequest.request(`${process.env.API_EVENTS_LIS}/${id}`, 'GET', { id });
+    getById = (id) => APIRequest.request(`${process.env.API_EVENTS_LIST_PATH}/${id}`, 'GET');
 }
 
 
