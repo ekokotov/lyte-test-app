@@ -21,7 +21,7 @@ class Event extends PureComponent {
 
     return (
       <div className={classNames('container', style.container)}>
-        <div className="box">
+        <div className={classNames('box', style.short_description)} sstyle={{ backgroundImage: `url(${event && event.logo_uri})` }}>
           {!event && 'Loading...'}
           {event && (
           <div className="columns">
@@ -31,7 +31,7 @@ class Event extends PureComponent {
                 {distanceInWordsToNow(new Date(event.start_time), {
                   addSuffix: true,
                 })}
-                {` (${format(new Date(event.start_time), 'MMM dd, HH:MM')} -  ${format(new Date(event.finish_time), 'MMM dd, HH:MM')})`}
+                {` (${format(new Date(event.start_time), 'MMM dd, HH:MM a')} -  ${format(new Date(event.finish_time), 'MMM dd, HH:MM a')})`}
               </p>
 
               {event && event.category
