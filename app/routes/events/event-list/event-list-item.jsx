@@ -12,9 +12,8 @@ class EventListItem extends Component {
     return (
       <div className={classNames('list-item', styles.list_item)} key={event.id}>
         <div className="columns">
-          {event.logo_uri && (
+          {event.logo_uri.length && (
             <div className="column is-narrow">
-              {/* <a href={event.uri} target="_blank" rel="noopener noreferrer"> */}
               <a href={`event/${event.id}`}>
                 <figure className={classNames('image', styles.logo)}>
                   <img src={event.logo_uri} alt="Event logo" />
@@ -44,12 +43,8 @@ class EventListItem extends Component {
               )}`}
             </p>
             <div className="tags are-small">
-              {event.category && (
-                <span className="tag is-warning">{event.category.name}</span>
-              )}
-              {event.category && (
+              {event.category && <span className="tag is-warning">{event.category.name}</span>}
                 <span className="tag">{event.organizer.name}</span>
-              )}
             </div>
           </div>
         </div>

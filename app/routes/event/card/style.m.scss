@@ -1,0 +1,101 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+$shadow: hsla(200, 20%, 20%, 0.25);
+$cutout-size: 1.2rem;
+$ticket-bg: #fffadf;
+$ticket-invert-yellow: #887428;
+
+@mixin ticket-background-with-shadow {
+  box-shadow: 0 2px 2px 0 rgba(41, 54, 61, 0.25);
+  background-color: $ticket-bg;
+}
+
+.price {
+  font-size: .9em;
+  margin-top: .5em;
+}
+
+.time {
+
+}
+
+.card {
+  margin: 0 auto;
+  border-radius: 5px;
+  max-width: 400px;
+  background-color: transparent;
+
+  & h3 {
+    padding: 15px 0;
+    border-top: 2px solid $yellow;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+   // @include ticket-background-with-shadow;
+  }
+}
+
+.card__logo, .card__content, .card h3, .card__footer {
+  @include ticket-background-with-shadow;
+}
+.card__logo img {
+  width: 100%;
+}
+.card__organizer__logo {
+  width: 48px;
+  height: 48px;
+}
+
+.divider {
+  position: relative;
+  height: $cutout-size;
+  background-color: $ticket-bg;
+  margin-left: ($cutout-size / 2);
+  margin-right: ($cutout-size / 2);
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px dashed $ticket-invert-yellow;
+  }
+}
+
+.divider__notch {
+  position: absolute;
+  left: ($cutout-size / 2) * -1;
+  width: $cutout-size;
+  height: $cutout-size;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: relative;
+    display: block;
+    width: ($cutout-size * 2);
+    height: ($cutout-size * 2);
+    right: 100%;
+    top: -50%;
+    border: ($cutout-size / 2) solid $ticket-bg;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px $shadow;
+  }
+
+  &_right {
+    left: auto;
+    right: ($cutout-size / 2) * -1;
+
+    &::after {
+      right: 0;
+    }
+  }
+}
+.card__footer {
+  background-color: $yellow;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  & a {
+    color: $ticket-invert-yellow;
+  }
+}

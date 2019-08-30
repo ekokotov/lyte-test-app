@@ -3,10 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
-import format from 'date-fns/format';
+import EventCard from './card';
 import style from './style.m.scss';
-import { formatPrice } from '../events/event-list/helper';
 
 @inject('EventStore')
 @withRouter
@@ -17,66 +15,24 @@ class Event extends PureComponent {
   }
 
   render() {
-    const { selectedEvent: event } = this.props.EventStore;
-
+    const { selectedEvent: event, inProgress } = this.props.EventStore;
+    if (inProgress || !event) {
+      return 'Loading...';
+    }
     return (
-      <div className={classNames('container', style.container)}>
-        <div className={classNames('box', style.short_description)} sstyle={{ backgroundImage: `url(${event && event.logo_uri})` }}>
-          {!event && 'Loading...'}
-          {event && (
-          <div className="columns">
-            <div className="column is-two-thirds">
-              <h3>{event.name}</h3>
-              <p className="has-text-danger">
-                {distanceInWordsToNow(new Date(event.start_time), {
-                  addSuffix: true,
-                })}
-                {` (${format(new Date(event.start_time), 'MMM dd, HH:MM a')} -  ${format(new Date(event.finish_time), 'MMM dd, HH:MM a')})`}
-              </p>
-
-              {event && event.category
-                  && (
-                  <span className="tag is-warning">{event.category.name}</span>
-                  )}
-            </div>
-            <div className="column has-text-right-tablet">
-              {event.uri && (
-              <a className="button is-danger is-outlined" href={event.uri} rel="noopener noreferrer">
-                <span className="icon is-small">
-                  <i className="icon ion-md-pricetags" />
-                </span>
-                <span>See tickets</span>
-              </a>
-              )}
-              <p className={classNames('has-text-weight-light', style.price)}>
-                <span className="icon">
-                  <i className="icon ion-md-card" />
-                </span>
-                {` ${formatPrice(event.min_ticket_price, event.ticket_price_currency)} - ${formatPrice(
-                  event.max_ticket_price, event.ticket_price_currency,
-                )}`}
-              </p>
-            </div>
+      <div className={classNames('container', style.root)}>
+        <div className="columns">
+          <div className="column is-narrow">
+            <EventCard event={event} />
           </div>
-          )}
-        </div>
-        <div className="box">
-          {event && event.organizer
-              && (
-              <div>
-                <span className="has-text-weight-semibold">Organizer: </span>
-                {' '}
-                <span className="tag">{event.organizer.name}</span>
-              </div>
-              )}
-
-          {event && event.description_html
-              && (
+          {event.description_html && (
+            <div className="column">
               <div
-                className={style.description}
+                className="box"
                 dangerouslySetInnerHTML={{ __html: event.description_html }}
               />
-              )}
+            </div>
+          )}
         </div>
       </div>
     );
