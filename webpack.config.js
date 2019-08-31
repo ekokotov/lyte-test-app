@@ -3,10 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-
-const isPROD = process.env.NODE_ENV === 'production';
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const isPROD = process.env.NODE_ENV === 'production';
 const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
   test: target,
   include: where,
@@ -18,9 +17,6 @@ const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
     }, { loader: 'sass-loader', options: sassOptions },
   ],
 });
-const htmlPlugin = new HtmlWebpackPlugin({ template: 'app/index.html' });
-const definePlugin = new webpack.DefinePlugin({ 'process.env': JSON.stringify(dotenv.config().parsed), 'process.env.IS_PRODUCTION': isPROD });
-
 const PATH = {
   APP: path.resolve(__dirname, 'app'),
   INDEX_HTML: path.resolve(__dirname, 'app', 'index.html'),
@@ -29,6 +25,9 @@ const PATH = {
   TMP: path.resolve(__dirname, '.tmp'),
   THEME: path.resolve(__dirname, 'theme'),
 };
+
+const htmlPlugin = new HtmlWebpackPlugin({ template: PATH.INDEX_HTML, inject: 'head',});
+const definePlugin = new webpack.DefinePlugin({ 'process.env': JSON.stringify(dotenv.config().parsed), 'process.env.IS_PRODUCTION': isPROD });
 
 const BASE_CONFIG = {
   entry: PATH.INDEX_JS,
@@ -74,6 +73,9 @@ const PROD_CONFIG = {
   plugins: [
     htmlPlugin, definePlugin,
     new MiniCssExtractPlugin(),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'async', preload: /\.js$/,
+    }),
     ...process.env.INSPECT ? new BundleAnalyzerPlugin() : [],
   ],
 };
