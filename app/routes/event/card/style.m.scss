@@ -92,10 +92,18 @@ $ticket-invert-yellow: #887428;
   }
 }
 .card__footer {
-  background-color: $yellow;
+  border-top: 1px solid gray;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  overflow: hidden;
   & a {
+    background-color: $red;
+    border-left: 1px solid gray;
+    color: white;
+  }
+  & a.tickets__link {
     color: $ticket-invert-yellow;
+    background-color: $yellow;
+    border: none;
   }
 }

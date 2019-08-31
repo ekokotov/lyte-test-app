@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
 import format from 'date-fns/format';
 import classNames from 'classnames';
+import { Link, withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 import style from './style.m.scss';
 import { formatPrice } from '../../events/event-list/helper';
 
+@inject('AuthStore')
+@withRouter
+@observer
 class EventCard extends Component {
+
   render() {
-    const { event } = this.props;
+    const { event, location } = this.props;
 
     return (
       <div className={classNames('card', 'is-shadowless', style.card)}>
@@ -69,10 +75,11 @@ class EventCard extends Component {
             </p>
           </div>
         </div>
-        {event.uri && (
-          <footer className={classNames('card-footer', style.card__footer)}>
+
+        <footer className={classNames('card-footer', style.card__footer)}>
+          {event.uri && (
             <a
-              className="card-footer-item"
+              className={classNames('card-footer-item', style.tickets__link)}
               target="_blank"
               href={event.uri}
               rel="noopener noreferrer"
@@ -82,8 +89,17 @@ class EventCard extends Component {
               </span>
               <span>&nbsp;See tickets</span>
             </a>
-          </footer>
-        )}
+          )}
+          {this.props.AuthStore.token && (
+            <Link to={`${location.pathname}/edit`} className="card-footer-item">
+              <span className="icon is-small">
+                <i className="icon ion-md-create" />
+              </span>
+              <span>&nbsp;Edit event</span>
+            </Link>
+          )}
+        </footer>
+
       </div>
     );
   }
@@ -91,6 +107,8 @@ class EventCard extends Component {
 
 EventCard.propTypes = {
   event: PropTypes.object.isRequired,
+  AuthStore: PropTypes.object,
+  location: PropTypes.object,
 };
 
 export default EventCard;

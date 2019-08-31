@@ -21,7 +21,7 @@ FormButton.propTypes = {
   isLoading: PropTypes.bool,
   isDisabled: PropTypes.bool,
   type: PropTypes.oneOf(['submit', 'button']),
-  colorStyle: PropTypes.oneOf(['primary', 'warning', 'danger', 'info', 'success', 'link']),
+  colorStyle: PropTypes.oneOf(['primary', 'warning', 'danger', 'info', 'success', 'link', 'light']),
   children: PropTypes.string.isRequired,
 };
 

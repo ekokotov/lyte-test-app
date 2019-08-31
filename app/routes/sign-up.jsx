@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import Navigation from '../ui-kit/navigation';
+import Navigation from '../ui-kit/login-navigation';
 import FormError from '../ui-kit/form-error';
 import FormInput from '../ui-kit/form-input';
 import FormButton from '../ui-kit/form-button';

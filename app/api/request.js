@@ -1,26 +1,25 @@
 class APIRequest {
   constructor(ApiUrl) {
     this.ApiUrl = ApiUrl;
-    this.session = null;
   }
 
-  async request(path, method, data, auth = false) {
+  async request(path, method, data, options = {}) {
     const url = new URL(`${this.ApiUrl}/${path}`);
-    const options = {
+    const params = {
       method,
       headers: {
         'Content-Type': 'application/json',
-        ...auth && { Authorization: `Token ${this.session}` },
+        ...options.authToken && { Authorization: `Token ${options.authToken}` },
       },
       mode: 'cors',
     };
 
-    if (method.toUpperCase() === 'POST') {
-      options.body = JSON.stringify(data);
+    if (['POST', 'PATCH'].includes(method.toUpperCase())) {
+      params.body = JSON.stringify(data);
     } else if (method.toUpperCase() === 'GET' && data) {
       url.search = new URLSearchParams(data);
     }
-    const request = new Request(url, options);
+    const request = new Request(url, params);
     const response = await fetch(request);
     const payload = await response.json();
 

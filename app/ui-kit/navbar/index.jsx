@@ -7,24 +7,29 @@ import { inject, observer } from 'mobx-react';
 import style from './style.m.scss';
 
 @inject('AuthStore')
-@observer
 @withRouter
+@observer
 class Navbar extends Component {
+  state={ menuShow: false };
+
+  toggleMenu = () => this.setState((prevState) => ({ menuShow: !prevState.menuShow }));
+
   render() {
     return (
-      <nav className={classNames('navbar', 'is-warning', style.nav)} role="navigation" aria-label="main navigation">
+      <nav className="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
         <div className={classNames('navbar-brand', style.brand)}>
           <NavLink to="/events" className="navbar-item">
             <img src="https://cdn-prod.lyte.com/marketing/images/lyte_logo_blk.svg" alt="Lyte Logo" />
           </NavLink>
-
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a
             role="button"
-            className="navbar-burger burger"
+            className={classNames('navbar-burger', 'burger', {
+              'is-active': this.state.menuShow,
+            })}
             aria-label="menu"
             aria-expanded="false"
             data-target="navbarBasicExample"
+            onClick={this.toggleMenu}
           >
             <span aria-hidden="true" />
             <span aria-hidden="true" />
@@ -32,7 +37,12 @@ class Navbar extends Component {
           </a>
         </div>
 
-        <div id="navbarBasicExample" className="navbar-menu">
+        <div
+          id="navbarBasicExample"
+          className={classNames('navbar-menu', {
+            'is-active': this.state.menuShow,
+          })}
+        >
           <div className="navbar-start">
             <NavLink to="/events" className="navbar-item" activeClassName={style.nav_active}>
               Events
@@ -53,17 +63,17 @@ class Navbar extends Component {
             ) : (
               <div className="navbar-item">
                 <div className="buttons">
-                  <NavLink to="/sign-in" className="button is-danger" onClick={this.props.AuthStore.logout}>
+                  <button type="button" className="button is-danger" onClick={this.props.AuthStore.logout}>
                     <span className="icon is-small">
                       <i className="icon ion-md-log-out" />
                     </span>
-&nbsp;Logout
-                  </NavLink>
+                    &nbsp;Logout
+                  </button>
                 </div>
               </div>
             )}
-
           </div>
+
         </div>
       </nav>
     );

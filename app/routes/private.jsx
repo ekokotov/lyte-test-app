@@ -8,6 +8,7 @@ import { inject, observer } from 'mobx-react';
 class PrivateRoute extends Component {
   render() {
     const { component: Component, AuthStore, ...rest } = this.props;
+
     return (
       <Route
         {...rest}

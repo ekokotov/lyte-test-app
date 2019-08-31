@@ -1,4 +1,6 @@
-import {action, entries, observable, reaction} from 'mobx';
+import {
+  action, entries, observable, reaction,
+} from 'mobx';
 import throttle from 'lodash/throttle';
 import EventsAPI from '../../api/events';
 import {
@@ -11,7 +13,7 @@ class EventStore {
 
   @observable inProgress;
 
-  @observable errors;
+  @observable errors ={};
 
   @observable events = [];
 
@@ -41,7 +43,10 @@ class EventStore {
   setErrors = (error) => this.errors = error.payload || error;
 
   @action
-  clearErrors = () => this.errors = null;
+  clearErrors = () => this.errors = {};
+
+  @action
+  updateSelectedEvent = (prop, value) => this.selectedEvent[prop] = value;
 
   @action
   getEvents = throttle(async () => {
@@ -65,6 +70,22 @@ class EventStore {
     this.clearErrors();
     try {
       this.selectedEvent = await EventsAPI.getById(eventId);
+      return this.selectedEvent;
+    } catch (err) {
+      this.setErrors(err);
+    } finally {
+      this.inProgress = false;
+    }
+  };
+
+  @action
+  updateEvent = async (eventId, data) => {
+    this.inProgress = true;
+    this.clearErrors();
+    try {
+      const updatedEvent = await EventsAPI.update(eventId, data, { authToken: this.rootStore.AuthStore.token });
+
+      return updatedEvent;
     } catch (err) {
       this.setErrors(err);
     } finally {

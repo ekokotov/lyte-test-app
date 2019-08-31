@@ -6,7 +6,6 @@ import { Link, withRouter } from 'react-router-dom';
 import styles from './style.m.scss';
 import { formatPrice } from './helper';
 
-
 @withRouter
 class EventListItem extends Component {
   render() {

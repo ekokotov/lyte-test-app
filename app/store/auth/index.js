@@ -29,8 +29,8 @@ class AuthStore {
     };
 
     @action logout = () => {
-      this.token = null;
       AuthTokenService.resetToken();
+      this.token = null;
     };
 
     // just register user by credentials and call login immediately to get session token
@@ -50,7 +50,7 @@ class AuthStore {
     };
 
     @action
-    signIn = async (email, password) => {
+    signIn = async ({ email, password }) => {
       this.inProgress = true;
       this.clearErrors();
       try {

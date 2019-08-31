@@ -1,0 +1,11 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+.root {
+  max-width: 600px;
+  width: 100%;
+}
+.price__block {
+  background-color: rgba($turquoise, .2);
+  padding: 15px;
+  border-radius: 5px;
+}
