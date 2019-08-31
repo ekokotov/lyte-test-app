@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
 import { Link, withRouter } from 'react-router-dom';
 import styles from './style.m.scss';
-import { formatPrice } from './helper';
+import { formatEventPriceRange, formatReadableEventStartDate } from '../helper';
 
 @withRouter
 class EventListItem extends Component {
@@ -32,19 +31,15 @@ class EventListItem extends Component {
                 <i className="icon ion-md-calendar" />
               </span>
               {' '}
-              {distanceInWordsToNow(new Date(event.start_time), {
-                addSuffix: true,
-              })}
+              {formatReadableEventStartDate(event.start_time)}
             </p>
             <p className="is-size-7 has-text-danger">
               <span className="icon">
                 <i className="icon ion-md-card" />
               </span>
-              {` ${formatPrice(event.min_ticket_price, event.ticket_price_currency)} - ${formatPrice(
-                event.max_ticket_price, event.ticket_price_currency,
-              )}`}
+              {formatEventPriceRange(event.min_ticket_price, event.max_ticket_price, event.ticket_price_currency)}
             </p>
-            <div className="tags are-small">
+            <div className={classNames('tags', styles.tags)}>
               {event.category && <span className="tag is-warning">{event.category.name}</span>}
               <span className="tag">{event.organizer.name}</span>
             </div>

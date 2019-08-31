@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
-import format from 'date-fns/format';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import style from './style.m.scss';
-import { formatPrice } from '../../events/event-list/helper';
+import {
+  formatEventDateRange,
+  formatEventPriceRange,
+  formatReadableEventStartDate,
+} from '../../events/event-list/helper';
+import Divider from '../../../ui-kit/card-divider';
 
 @inject('AuthStore')
 @withRouter
 @observer
 class EventCard extends Component {
-
   render() {
     const { event, location } = this.props;
 
@@ -26,10 +28,8 @@ class EventCard extends Component {
             </figure>
           </div>
         )}
-        <div className={style.divider}>
-          <div className={style.divider__notch} />
-          <div className={classNames(style.divider__notch, style.divider__notch_right)} />
-        </div>
+
+        <Divider />
 
         <div className={classNames('card-content', style.card__content)}>
           <div className="media">
@@ -46,32 +46,23 @@ class EventCard extends Component {
             </div>
           </div>
         </div>
-        <div className={style.divider}>
-          <div className={style.divider__notch} />
-          <div className={classNames(style.divider__notch, style.divider__notch_right)} />
-        </div>
+
+        <Divider />
+
         <div className={classNames('card-content', style.card__content)}>
           <div className="content">
             <time dateTime={event.start_time} className="has-text-danger">
               <p className="has-text-weight-bold">
-                {`${format(
-                  new Date(event.start_time),
-                  'MMM dd, HH:MM a',
-                )} -  ${format(new Date(event.finish_time), 'MMM dd, HH:MM a')} `}
+                {formatEventDateRange(event.start_time, event.finish_time, 'MMM dd, HH:MM a')}
               </p>
-              <p className="subtitle is-7 has-text-danger">{distanceInWordsToNow(new Date(event.start_time), { addSuffix: true })}</p>
+              <p className="subtitle is-7 has-text-danger">{formatReadableEventStartDate(event.start_time)}</p>
             </time>
             <p className={classNames('has-text-weight-bold', style.price)}>
               <span className="icon">
                 <i className="icon ion-md-card" />
               </span>
-              {` ${formatPrice(
-                event.min_ticket_price,
-                event.ticket_price_currency,
-              )} - ${formatPrice(
-                event.max_ticket_price,
-                event.ticket_price_currency,
-              )}`}
+              {formatEventPriceRange(event.min_ticket_price, event.max_ticket_price,
+                event.ticket_price_currency)}
             </p>
           </div>
         </div>

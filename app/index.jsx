@@ -22,5 +22,5 @@ render(
       </BrowserRouter>
     </Provider>
   </section>,
-  document.body,
+  document.getElementById('rest-events-root'),
 );

@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Pagination from '../../../ui-kit/pagination';
-import styles from './style.m.scss';
 import EventListItem from './event-list-item';
 import Loading from '../../../ui-kit/loading';
 
@@ -21,17 +20,13 @@ class EventList extends Component {
     }
 
     return (
-      <div className={styles.root}>
-        {!!events.length
-        && (
-          <>
-            <div className="list is-hoverable">
-              {events.map((event) => <EventListItem event={event} key={event.id} />)}
-            </div>
-            <Pagination pageCount={totalEvents / filters.limit} onPageChange={setPage} />
-          </>
-        )}
-      </div>
+      <>
+        <div className="list is-hoverable">
+          {events.map((event) => <EventListItem event={event} key={event.id} />)}
+        </div>
+,
+        <Pagination pageCount={totalEvents / filters.limit} onPageChange={setPage} />
+      </>
     );
   }
 }
