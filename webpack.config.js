@@ -17,11 +17,6 @@ const PATH = {
 
 const BASE_CONFIG = {
   entry: PATH.INDEX_JS,
-  output: {
-    path: PATH.TMP,
-    filename: './rest-events.bundle.js',
-    publicPath: '/',
-  },
   module: {
     rules: [
       {
@@ -74,14 +69,25 @@ const BASE_CONFIG = {
   ],
 };
 const DEV_CONFIG = {
+  output: {
+    path: PATH.TMP,
+    filename: './rest-events.bundle.js',
+    publicPath: '/',
+  },
   devtool: 'inline-source-map',
   devServer: {
     port: 3000,
     historyApiFallback: true,
   },
 };
+
 const PROD_CONFIG = {
+  output: {
+    path: PATH.BUILD,
+    filename: './rest-events.bundle.js',
+  },
   plugins: [
+    ...BASE_CONFIG.plugins,
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production', // use 'development' unless process.env.NODE_ENV is defined
       DEBUG: false,
@@ -89,8 +95,6 @@ const PROD_CONFIG = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
       filename: '[name].css',
       chunkFilename: '[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
@@ -98,15 +102,43 @@ const PROD_CONFIG = {
   ],
   module: {
     rules: [
-      ...BASE_CONFIG.module.rules,
       {
-        test: /\.scss|.sass$/,
+        test: /\.js|.jsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.scss$/,
+        include: path.resolve(__dirname, 'app'),
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          }, 'sass-loader',
+        ],
+      },
+      {
+        test: /index\.scss$/,
+        include: path.resolve(__dirname, 'theme'),
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
           },
           'css-loader',
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: ['./node_modules/bulma'],
+            },
+          },
         ],
       },
     ],
