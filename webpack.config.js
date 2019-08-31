@@ -7,7 +7,22 @@ const dotenv = require('dotenv');
 const isPROD = process.env.NODE_ENV === 'production';
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
+  test: target,
+  include: where,
+  use: [
+    { loader: isPROD ? MiniCssExtractPlugin.loader : 'style-loader' },
+    {
+      loader: 'css-loader',
+      options: cssOptions,
+    }, { loader: 'sass-loader', options: sassOptions },
+  ],
+});
+const htmlPlugin = new HtmlWebpackPlugin({ template: 'app/index.html' });
+const definePlugin = new webpack.DefinePlugin({ 'process.env': JSON.stringify(dotenv.config().parsed), 'process.env.IS_PRODUCTION': isPROD });
+
 const PATH = {
+  APP: path.resolve(__dirname, 'app'),
   INDEX_HTML: path.resolve(__dirname, 'app', 'index.html'),
   INDEX_JS: path.resolve(__dirname, 'app', 'index.jsx'),
   BUILD: path.resolve(__dirname, 'dist'),
@@ -22,53 +37,19 @@ const BASE_CONFIG = {
       {
         test: /\.js|.jsx$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: 'babel-loader',
       },
-      {
-        test: /\.scss$/,
-        include: path.resolve(__dirname, 'app'),
-        use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-            },
-          }, { loader: 'sass-loader', options: { sourceMap: true } },
-        ],
-      },
-      {
-        test: /\.scss|.sass$/,
-        include: PATH.THEME,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ['./node_modules/bulma'],
-            },
-          },
-        ],
-      },
+      stylesProcessing(/\.scss$/, PATH.APP, { modules: true }, { sourceMap: true }),
+      stylesProcessing(/index\.scss$/, PATH.THEME, {}, { includePaths: ['./node_modules/bulma'] }),
     ],
   },
   resolve: {
     extensions: ['.js', '.jsx', '*.ts'],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'app/index.html',
-    }),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.config().parsed),
-      'process.env.IS_PRODUCTION': isPROD,
-    }),
-  ],
 };
+
 const DEV_CONFIG = {
+  ...BASE_CONFIG,
   output: {
     path: PATH.TMP,
     filename: './rest-events.bundle.js',
@@ -79,78 +60,22 @@ const DEV_CONFIG = {
     port: 3000,
     historyApiFallback: true,
   },
+  plugins: [
+    htmlPlugin, definePlugin,
+  ],
 };
 
 const PROD_CONFIG = {
+  ...BASE_CONFIG,
   output: {
     path: PATH.BUILD,
     filename: './rest-events.bundle.js',
   },
   plugins: [
-    ...BASE_CONFIG.plugins,
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production', // use 'development' unless process.env.NODE_ENV is defined
-      DEBUG: false,
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-      ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
+    htmlPlugin, definePlugin,
+    new MiniCssExtractPlugin(),
+    ...process.env.INSPECT ? new BundleAnalyzerPlugin() : [],
   ],
-  module: {
-    rules: [
-      {
-        test: /\.js|.jsx$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-      {
-        test: /\.scss$/,
-        include: path.resolve(__dirname, 'app'),
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-            },
-          }, 'sass-loader',
-        ],
-      },
-      {
-        test: /index\.scss$/,
-        include: path.resolve(__dirname, 'theme'),
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ['./node_modules/bulma'],
-            },
-          },
-        ],
-      },
-    ],
-  },
 };
 
-const TARGET_CONFIG = Object.assign(BASE_CONFIG, isPROD ? PROD_CONFIG : DEV_CONFIG);
-
-if (process.env.INSPECT) {
-  TARGET_CONFIG.plugins.push(
-    new BundleAnalyzerPlugin(),
-  );
-}
-
-exports.default = TARGET_CONFIG;
+exports.default = isPROD ? PROD_CONFIG : DEV_CONFIG;
