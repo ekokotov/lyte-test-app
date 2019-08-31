@@ -8,12 +8,13 @@ import { inject, observer } from 'mobx-react';
 class PrivateRoute extends Component {
   render() {
     const { component: Component, AuthStore, ...rest } = this.props;
-
+    if (!AuthStore.token) {
+      return <Redirect to="/sign-in" />;
+    }
     return (
       <Route
         {...rest}
-        render={(compProps) => (AuthStore.token ? <Component {...compProps} />
-          : <Redirect to="/sign-in" />)}
+        render={(compProps) => <Component {...compProps} />}
       />
     );
   }

@@ -5,6 +5,8 @@ import { Link, withRouter } from 'react-router-dom';
 import styles from './style.m.scss';
 import { formatEventPriceRange, formatReadableEventStartDate } from '../helper';
 
+const DEFAULT_LOGO_PLACEHOLDER = 'https://via.placeholder.com/400x200?text=No%20Event%20Logo';
+
 @withRouter
 class EventListItem extends Component {
   render() {
@@ -13,15 +15,15 @@ class EventListItem extends Component {
     return (
       <div className={classNames('list-item', styles.list_item)} key={event.id}>
         <div className="columns">
-          {event.logo_uri.length && (
-            <div className="column is-narrow">
-              <Link to={`${location.pathname}/${event.id}`}>
-                <figure className={classNames('image', styles.logo)}>
-                  <img src={event.logo_uri} alt="Event logo" />
-                </figure>
-              </Link>
-            </div>
-          )}
+
+          <div className="column is-narrow">
+            <Link to={`${location.pathname}/${event.id}`}>
+              <figure className={classNames('image', styles.logo)}>
+                <img src={event.logo_uri || DEFAULT_LOGO_PLACEHOLDER} alt="Event logo" />
+              </figure>
+            </Link>
+          </div>
+
           <div className="column">
             <Link to={`${location.pathname}/${event.id}`}>
               {event.name}

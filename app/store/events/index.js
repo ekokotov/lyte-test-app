@@ -1,11 +1,11 @@
 import {
   action, entries, observable, reaction,
 } from 'mobx';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import EventsAPI from '../../api/events';
 import {
   DEFAULT_EVENT_FILTER_VALUES,
-  SEARCH_EVENTS_TROTTLE_DELAY,
+  SEARCH_EVENTS_DEBOUNCE_DELAY,
 } from './const';
 
 class EventStore {
@@ -13,7 +13,7 @@ class EventStore {
 
   @observable inProgress;
 
-  @observable errors ={};
+  @observable errors = {};
 
   @observable events = [];
 
@@ -21,7 +21,10 @@ class EventStore {
 
   @observable filters = DEFAULT_EVENT_FILTER_VALUES;
 
-  @action setPage = (newPage) => this.filters.currentPage = parseInt(newPage.selected, 10);
+  @observable currentPage = 0;
+
+
+  @action setPage = (newPage) => this.currentPage = parseInt(newPage.selected, 10);
 
   @action setLimit = (newLimit) => this.filters.limit = parseInt(newLimit, 10);
 
@@ -35,8 +38,12 @@ class EventStore {
     this.rootStore = rootStore;
     this.reset();
     // to send request on any filter change with throttling
-    reaction(() => entries(this.filters), this.getEvents);
     // or -> deepObserve(this.filters, this.getEvents);
+    reaction(() => entries(this.filters), () => {
+      this.currentPage = 0;
+      this.getEvents();
+    });
+    reaction(() => this.currentPage, this.getEvents);
   }
 
   @action
@@ -49,11 +56,11 @@ class EventStore {
   updateSelectedEvent = (prop, value) => this.selectedEvent[prop] = value;
 
   @action
-  getEvents = throttle(async () => {
+  getEvents = debounce(async () => {
     this.inProgress = true;
     this.clearErrors();
     try {
-      const response = await EventsAPI.getAll(this.filters);
+      const response = await EventsAPI.getAll({ ...this.filters, currentPage: this.currentPage });
 
       this.events = response.results;
       this.totalEvents = response.count;
@@ -62,7 +69,7 @@ class EventStore {
     } finally {
       this.inProgress = false;
     }
-  }, SEARCH_EVENTS_TROTTLE_DELAY);
+  }, SEARCH_EVENTS_DEBOUNCE_DELAY);
 
   @action
   getById = async (eventId) => {
@@ -83,9 +90,7 @@ class EventStore {
     this.inProgress = true;
     this.clearErrors();
     try {
-      const updatedEvent = await EventsAPI.update(eventId, data, { authToken: this.rootStore.AuthStore.token });
-
-      return updatedEvent;
+      return await EventsAPI.update(eventId, data, { authToken: this.rootStore.AuthStore.token });
     } catch (err) {
       this.setErrors(err);
     } finally {
@@ -99,7 +104,7 @@ class EventStore {
     Object.assign(this.filters, DEFAULT_EVENT_FILTER_VALUES);
     this.errors = null;
     this.inProgress = false;
-  }
+  };
 }
 
 export default EventStore;

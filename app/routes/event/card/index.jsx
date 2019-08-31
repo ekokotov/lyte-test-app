@@ -78,7 +78,7 @@ class EventCard extends Component {
               <span className="icon is-small">
                 <i className="icon ion-md-pricetags" />
               </span>
-              <span>&nbsp;See tickets</span>
+              <span>&nbsp;Buy ticket</span>
             </a>
           )}
           {this.props.AuthStore.token && (

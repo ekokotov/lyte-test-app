@@ -30,13 +30,13 @@ class Signup extends Component {
     const { AuthStore } = this.props;
     return (
       <div className="container">
-        <FormError errors={AuthStore.errors} />
         <div className="column is-4 is-offset-4">
           <div className="box">
+            <FormError errors={AuthStore.errors} />
             <form onSubmit={this.submit}>
               <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={AuthStore.errors.email} />
               <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={AuthStore.errors.password} />
-              <FormButton type="submit" colorStyle="success" isDisabled={AuthStore.inProgress} isLoading={AuthStore.inProgress}>
+              <FormButton type="submit" colorStyle="info" isDisabled={AuthStore.inProgress} isLoading={AuthStore.inProgress}>
                     Register
               </FormButton>
             </form>

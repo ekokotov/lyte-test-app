@@ -44,7 +44,7 @@ class Navbar extends Component {
           })}
         >
           <div className="navbar-start">
-            <NavLink to="/events" className="navbar-item" activeClassName={style.nav_active}>
+            <NavLink to="/event" className="navbar-item" activeClassName={style.nav_active}>
               Events
             </NavLink>
           </div>
@@ -53,21 +53,14 @@ class Navbar extends Component {
             {!this.props.AuthStore.token ? (
               <>
                 <NavLink to="/sign-in" className="navbar-item" activeClassName={style.nav_active}>
-                Sign-in
-                </NavLink>
-
-                <NavLink to="/sign-up" className="navbar-item" activeClassName={style.nav_active}>
-                Sign-up
+                Sign in
                 </NavLink>
               </>
             ) : (
               <div className="navbar-item">
                 <div className="buttons">
-                  <button type="button" className="button is-danger" onClick={this.props.AuthStore.logout}>
-                    <span className="icon is-small">
-                      <i className="icon ion-md-log-out" />
-                    </span>
-                    &nbsp;Logout
+                  <button type="button" className={classNames('button', 'is-outlined', style.logout)} onClick={this.props.AuthStore.logout}>
+                   Logout
                   </button>
                 </div>
               </div>

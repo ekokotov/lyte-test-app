@@ -8,12 +8,12 @@ function Navigation() {
       <ul>
         <li>
           <NavLink to="/sign-in" activeClassName={styles.link__active}>
-            Sign-in
+            Sign in
           </NavLink>
         </li>
         <li>
           <NavLink to="/sign-up" activeClassName={styles.link__active}>
-            Sign-up
+            Sign up
           </NavLink>
         </li>
       </ul>

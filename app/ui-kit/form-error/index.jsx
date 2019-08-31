@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import style from './style.m.scss';
 
 const FormError = (props) => {
-  const formHasError = props.errors && Object.keys(props.errors).length;
   const nonFieldErrors = props.errors.non_field_errors && props.errors.non_field_errors.length;
-
-  return (
-    <>
-      {!!formHasError && <h3 className="has-text-danger is-size-3 has-text-centered">Sign-in Error</h3>}
-      {nonFieldErrors && props.errors.non_field_errors.map((error) => <p key={error} className="help is-danger has-text-centered">{error}</p>)}
-    </>
-  );
+  if (!nonFieldErrors) {
+    return null;
+  }
+  return props.errors.non_field_errors.map((error) => <h3 key={error} className={classNames('title', 'has-text-centered', 'is-6', style.root)}>{error}</h3>);
 };
 
 FormError.propTypes = {

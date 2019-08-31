@@ -26,8 +26,14 @@
 
 .nav_active {
   background-color: #e4bf29;
+  font-weight: bold;
 
   &:focus {
     background-color: inherit;
   }
+}
+.logout {
+  border-color: black;
+  color: black;
+  background-color: transparent;
 }

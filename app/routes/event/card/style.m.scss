@@ -50,11 +50,18 @@ $ticket-invert-yellow: #887428;
     background-color: $red;
     border-left: 1px solid gray;
     color: white;
+    &:hover {
+      background-color: rgba($red, .8);
+    }
   }
 
   & a.tickets__link {
     color: $ticket-invert-yellow;
     background-color: $yellow;
+    font-weight: bold;
     border: none;
+    &:hover {
+      background-color: adjust-hue($yellow, -6deg);
+    }
   }
 }
