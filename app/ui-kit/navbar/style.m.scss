@@ -1,3 +1,11 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+:global {
+  .hero .navbar {
+    background: $yellow;
+  }
+}
+
 .brand img {
   height: 100%;
   width: auto;

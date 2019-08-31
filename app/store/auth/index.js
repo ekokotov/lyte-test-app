@@ -36,12 +36,12 @@ class AuthStore {
     // just register user by credentials and call login immediately to get session token
     // (cuz register doesn't returns users token)
     @action
-    signUp = async (email, password) => {
+    signUp = async ({ email, password }) => {
       this.inProgress = true;
       this.clearErrors();
       try {
         await AuthAPI.register(email, password);
-        return this.signIn(email, password);
+        return this.signIn({email, password});
       } catch (err) {
         this.setErrors(err);
       } finally {

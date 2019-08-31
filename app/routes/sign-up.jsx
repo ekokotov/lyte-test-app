@@ -6,24 +6,20 @@ import Navigation from '../ui-kit/login-navigation';
 import FormError from '../ui-kit/form-error';
 import FormInput from '../ui-kit/form-input';
 import FormButton from '../ui-kit/form-button';
+import { getFormValues } from '../utils/form-data';
 
 @inject('AuthStore')
 @withRouter
 @observer
 class Signup extends Component {
-  email = React.createRef();
-
-  password = React.createRef();
-
   componentWillUnmount() {
     this.props.AuthStore.clearErrors();
   }
 
   submit = async (event) => {
     event.preventDefault();
-    const email = this.email.current.value;
-    const password = this.password.current.value;
-    const token = await this.props.AuthStore.signUp(email, password);
+    const formData = getFormValues(event.target);
+    const token = await this.props.AuthStore.signUp(formData);
 
     if (token) {
       this.props.history.push('/event');
@@ -38,32 +34,9 @@ class Signup extends Component {
         <div className="column is-4 is-offset-4">
           <div className="box">
             <form onSubmit={this.submit}>
-              <FormInput
-                required
-                label="Email"
-                name="email"
-                placeholder="Your email"
-                type="email"
-                errors={AuthStore.errors.email}
-                ref={this.email}
-              />
-
-              <FormInput
-                required
-                label="Password"
-                name="password"
-                placeholder="Your password"
-                type="password"
-                errors={AuthStore.errors.password}
-                ref={this.password}
-              />
-
-              <FormButton
-                type="submit"
-                colorStyle="success"
-                isDisabled={AuthStore.inProgress}
-                isLoading={AuthStore.inProgress}
-              >
+              <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={AuthStore.errors.email} />
+              <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={AuthStore.errors.password} />
+              <FormButton type="submit" colorStyle="success" isDisabled={AuthStore.inProgress} isLoading={AuthStore.inProgress}>
                     Register
               </FormButton>
             </form>

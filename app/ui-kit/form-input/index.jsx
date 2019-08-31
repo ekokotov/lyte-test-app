@@ -44,7 +44,6 @@ FormInput.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   errors: PropTypes.arrayOf(PropTypes.string),
-  // required: PropTypes.bool,
   innerRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
@@ -58,7 +57,6 @@ FormInput.propTypes = {
 };
 
 FormInput.defaultProps = {
-  // required: false,
   errors: [],
   size: 'large',
   horizontal: false,

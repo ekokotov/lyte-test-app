@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import Loading from '../../ui-kit/loading';
 @inject('EventStore')
 @withRouter
 @observer
-class Event extends PureComponent {
+class Event extends Component {
   componentDidMount() {
     this.props.EventStore.getById(this.props.match.params.eventId);
   }

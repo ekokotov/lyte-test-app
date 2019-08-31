@@ -16,7 +16,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar is-warning is-fixed-top" role="navigation" aria-label="main navigation">
+      <nav className={classNames('navbar', 'is-warning', style.navbar)} role="navigation" aria-label="main navigation">
         <div className={classNames('navbar-brand', style.brand)}>
           <NavLink to="/events" className="navbar-item">
             <img src="https://cdn-prod.lyte.com/marketing/images/lyte_logo_blk.svg" alt="Lyte Logo" />

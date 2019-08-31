@@ -18,6 +18,7 @@ class SignIn extends Component {
 
   submit = async (event) => {
     event.preventDefault();
+    // BTW, we can use Refs in this case
     const formData = getFormValues(event.target);
 
     const token = await this.props.AuthStore.signIn(formData);
@@ -36,30 +37,9 @@ class SignIn extends Component {
         <div className="column is-4 is-offset-4">
           <div className="box">
             <form onSubmit={this.submit}>
-
-              <FormInput
-                required
-                label="Email"
-                name="email"
-                placeholder="Your email"
-                type="email"
-                errors={AuthStore.errors.email}
-              />
-
-              <FormInput
-                required
-                label="Password"
-                name="password"
-                placeholder="Your password"
-                type="password"
-                errors={AuthStore.errors.password}
-              />
-              <FormButton
-                type="submit"
-                colorStyle="warning"
-                isDisabled={AuthStore.inProgress}
-                isLoading={AuthStore.inProgress}
-              >
+              <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={AuthStore.errors.email} />
+              <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={AuthStore.errors.password} />
+              <FormButton type="submit" colorStyle="warning" isDisabled={AuthStore.inProgress} isLoading={AuthStore.inProgress}>
                     Login
               </FormButton>
             </form>

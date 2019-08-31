@@ -12,17 +12,15 @@ import Navbar from './ui-kit/navbar';
 configure({ enforceActions: 'observed' });
 
 render(
-  <Provider {...stores}>
-    <BrowserRouter>
-      <Navbar />
-      <section className="hero is-fullheight is-primary">
+  <section className="hero is-fullheight is-primary">
+    <Provider {...stores}>
+      <BrowserRouter>
+        <Navbar />
         <div className="hero-body">
-
           <Routes />
-
         </div>
-      </section>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('rest-events-root'),
+      </BrowserRouter>
+    </Provider>
+  </section>,
+  document.body,
 );
