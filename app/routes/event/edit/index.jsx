@@ -34,7 +34,7 @@ class EditEvent extends Component {
 
   cancelUpdate = () => this.props.history.push(`/event/${this.props.match.params.eventId}`);
 
-  editEvent = (name) => (val) => this.props.EventStore.updateSelectedEvent(name, val);
+  editEvent = (e) => this.props.EventStore.updateSelectedEvent(e.target.name, e.target.value);
 
   render() {
     const {
@@ -52,10 +52,10 @@ class EditEvent extends Component {
         <div className="columns is-centered">
           <div className={classNames('column', 'is-narrow', style.column)}>
             <h2 className="title">Edit event</h2>
-            <form className="box" onSubmit={this.updateEvent}>
-              <FormInput placeholder="min length: 1, max length: 255" name="name" label="Event name" type="text" size="normal" minLength="1" maxLength="255" value={event.name} onChange={this.editEvent('name')} errors={errors.name} />
-              <FormInput placeholder="min length: 5, max length: 200" name="uri" label="Event URI" type="text" size="normal" minLength="5" maxLength="200" value={event.uri} onChange={this.editEvent('uri')} errors={errors.uri} />
-              <FormInput placeholder="min length: 5, max length: 200" name="logo_uri" label="Event Logo" type="text" size="normal" minLength="5" maxLength="200" value={event.logo_uri} onChange={this.editEvent('logo_uri')} errors={errors.logo_uri} />
+            <form className="box" onSubmit={this.updateEvent} onInput={this.editEvent}>
+              <FormInput placeholder="min length: 1, max length: 255" name="name" label="Event name" type="text" size="normal" minLength="1" maxLength="255" defaultValue={event.name} errors={errors.name} />
+              <FormInput placeholder="min length: 5, max length: 200" name="uri" label="Event URI" type="text" size="normal" minLength="5" maxLength="200" defaultValue={event.uri} errors={errors.uri} />
+              <FormInput placeholder="min length: 5, max length: 200" name="logo_uri" label="Event Logo" type="text" size="normal" minLength="5" maxLength="200" defaultValue={event.logo_uri} errors={errors.logo_uri} />
               {event.logo_uri && (
               <figure className="image field">
                 <img src={event.logo_uri} alt="Event Logo" />
@@ -64,9 +64,9 @@ class EditEvent extends Component {
 
               <div className={classNames('field is-horizontal', style.price__block)}>
                 <div className="field-body">
-                  <FormInput horizontal placeholder="BYN, USD" name="ticket_price_currency" label="Currency" type="text" size="normal" minLength="1" maxLength="3" value={event.ticket_price_currency} onChange={this.editEvent('ticket_price_currency')} errors={errors.ticket_price_currency} />
-                  <FormInput horizontal placeholder="0-100" name="min_ticket_price" label="From" type="number" size="normal" value={event.min_ticket_price} onChange={this.editEvent('min_ticket_price')} errors={errors.min_ticket_price} />
-                  <FormInput horizontal placeholder="0-100" name="max_ticket_price" label="To" type="number" size="normal" value={event.max_ticket_price} onChange={this.editEvent('max_ticket_price')} errors={errors.max_ticket_price} />
+                  <FormInput horizontal placeholder="BYN, USD" name="ticket_price_currency" label="Currency" type="text" size="normal" minLength="1" maxLength="3" defaultValue={event.ticket_price_currency} errors={errors.ticket_price_currency} />
+                  <FormInput horizontal placeholder="0-100" name="min_ticket_price" label="From" type="number" size="normal" defaultValue={event.min_ticket_price} errors={errors.min_ticket_price} />
+                  <FormInput horizontal placeholder="0-100" name="max_ticket_price" label="To" type="number" size="normal" defaultValue={event.max_ticket_price} errors={errors.max_ticket_price} />
                 </div>
               </div>
 
