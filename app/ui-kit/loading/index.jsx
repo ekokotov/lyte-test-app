@@ -5,7 +5,7 @@ import style from './style.m.scss';
 
 function Loading(props) {
   return (
-    <div className={style.progress}>
+    <div className={classNames(style.progress, props.className)}>
       <span className={classNames('icon', style.progress__icon)}>
         <i className="icon ion-md-refresh" />
       </span>
@@ -16,6 +16,7 @@ function Loading(props) {
 
 Loading.propTypes = {
   title: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Loading.defaultProps = {

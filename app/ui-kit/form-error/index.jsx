@@ -4,11 +4,13 @@ import classNames from 'classnames';
 import style from './style.m.scss';
 
 const FormError = (props) => {
-  const nonFieldErrors = props.errors.non_field_errors && props.errors.non_field_errors.length;
+  const errors = props.errors.non_field_errors;
+  const nonFieldErrors = errors && errors.length;
+
   if (!nonFieldErrors) {
     return null;
   }
-  return props.errors.non_field_errors.map((error) => <h3 key={error} className={classNames('title', 'has-text-centered', 'is-6', style.root)}>{error}</h3>);
+  return errors.map((error) => <h3 key={error} className={classNames('title', 'has-text-centered', 'is-6', style.root)}>{error}</h3>);
 };
 
 FormError.propTypes = {

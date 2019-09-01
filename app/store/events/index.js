@@ -1,5 +1,5 @@
 import {
-  action, entries, observable, reaction,
+  action, entries, observable, reaction, computed,
 } from 'mobx';
 import debounce from 'lodash/debounce';
 import EventsAPI from '../../api/events';
@@ -11,7 +11,7 @@ import {
 class EventStore {
   totalEvents = 0;
 
-  @observable inProgress;
+  @observable inProgress = true;
 
   @observable errors = {};
 
@@ -22,7 +22,6 @@ class EventStore {
   @observable filters = DEFAULT_EVENT_FILTER_VALUES;
 
   @observable currentPage = 0;
-
 
   @action setPage = (newPage) => this.currentPage = parseInt(newPage.selected, 10);
 
@@ -51,6 +50,10 @@ class EventStore {
 
   @action
   clearErrors = () => this.errors = {};
+
+  @computed get hasGlobalError() {
+    return Boolean(this.errors && this.errors instanceof Error);
+  }
 
   @action
   updateSelectedEvent = (prop, value) => this.selectedEvent[prop] = value;
@@ -102,8 +105,7 @@ class EventStore {
   @action
   reset = () => {
     Object.assign(this.filters, DEFAULT_EVENT_FILTER_VALUES);
-    this.errors = null;
-    this.inProgress = false;
+    this.clearErrors();
   };
 }
 

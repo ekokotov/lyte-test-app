@@ -8,6 +8,7 @@ import FormInput from '../../../ui-kit/form-input';
 import FormButton from '../../../ui-kit/form-button';
 import { getFormValues } from '../../../utils/form-data';
 import Loading from '../../../ui-kit/loading';
+import Notification from '../../../ui-kit/notification';
 
 @inject('EventStore')
 @withRouter
@@ -36,7 +37,11 @@ class EditEvent extends Component {
   editEvent = (name) => (val) => this.props.EventStore.updateSelectedEvent(name, val);
 
   render() {
-    const { EventStore: { selectedEvent: event, inProgress, errors } } = this.props;
+    const {
+      EventStore: {
+        selectedEvent: event, inProgress, errors, hasGlobalError,
+      },
+    } = this.props;
 
     if (!event) {
       return <Loading />;
@@ -80,6 +85,7 @@ class EditEvent extends Component {
             </form>
           </div>
         </div>
+        {hasGlobalError && <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>}
       </div>
     );
   }

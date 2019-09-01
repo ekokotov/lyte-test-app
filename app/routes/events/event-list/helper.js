@@ -9,10 +9,10 @@ const formatPrice = (stringPrice, currency) => {
     minimumFractionDigits: 2,
   });
 
-  return formatter.format(stringPrice); // "$1,000.00"
+  return formatter.format(stringPrice);
 };
 
-export const formatEventPriceRange = (minPrice, maxPrice, currency) => ` ${formatPrice(minPrice, currency)} - ${formatPrice(minPrice, currency)}`;
+export const formatEventPriceRange = (minPrice, maxPrice, currency) => ` ${formatPrice(minPrice, currency)} - ${formatPrice(maxPrice, currency)}`;
 export const formatEventDateRange = (startTime, endTime, pattern) => `${format(new Date(startTime), pattern)} -  ${format(new Date(endTime), pattern)} `;
 
 export const formatReadableEventStartDate = (startTime) => distanceInWordsToNow(

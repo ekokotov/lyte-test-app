@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import omit from 'lodash/omit';
 
 class FormInput extends PureComponent {
-  onInputHandler = (e) => this.props.onChange(e.target.value); // debounce((text) => this.props.onChange(text, this.props.debounce);
+  onInputHandler = (e) => this.props.onChange(e.target.value);
 
   render() {
-    const hasErrors = this.props.errors && this.props.errors.length;
+    const hasErrors = Boolean(this.props.errors && this.props.errors.length);
     const inputProps = omit(this.props, ['innerRef', 'errors', 'horizontal']);
 
     return (
@@ -30,7 +30,7 @@ class FormInput extends PureComponent {
               onChange={this.props.onChange ? this.onInputHandler : null}
             />
           </div>
-          {!!hasErrors && this.props.errors.map((error) => <p key={error} className="help is-danger">{error}</p>)}
+          {hasErrors && this.props.errors.map((error) => <p key={error} className="help is-danger">{error}</p>)}
         </div>
       </>
     );

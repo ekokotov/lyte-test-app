@@ -5,16 +5,15 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+
 const isPROD = process.env.NODE_ENV === 'production';
 const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
   test: target,
   include: where,
   use: [
     { loader: isPROD ? MiniCssExtractPlugin.loader : 'style-loader' },
-    {
-      loader: 'css-loader',
-      options: cssOptions,
-    }, { loader: 'sass-loader', options: sassOptions },
+    { loader: 'css-loader', options: cssOptions, },
+    { loader: 'sass-loader', options: sassOptions },
   ],
 });
 const PATH = {
@@ -25,9 +24,10 @@ const PATH = {
   TMP: path.resolve(__dirname, '.tmp'),
   THEME: path.resolve(__dirname, 'theme'),
 };
-
-const htmlPlugin = new HtmlWebpackPlugin({ template: PATH.INDEX_HTML, inject: 'head',});
-const definePlugin = new webpack.DefinePlugin({ 'process.env': JSON.stringify(dotenv.config().parsed), 'process.env.IS_PRODUCTION': isPROD });
+const definePlugin = new webpack.DefinePlugin({
+  'process.env': JSON.stringify(dotenv.config().parsed),
+  'process.env.IS_PRODUCTION': isPROD,
+});
 
 const BASE_CONFIG = {
   entry: PATH.INDEX_JS,
@@ -38,8 +38,18 @@ const BASE_CONFIG = {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
-      stylesProcessing(/\.scss$/, PATH.APP, { modules: true }, { sourceMap: true }),
-      stylesProcessing(/index\.scss$/, PATH.THEME, {}, { includePaths: ['./node_modules/bulma'] }),
+      stylesProcessing(
+        /\.scss$/,
+        PATH.APP,
+        { modules: true },
+        { sourceMap: true },
+      ),
+      stylesProcessing(
+        /index\.scss$/,
+        PATH.THEME,
+        {},
+        { includePaths: ['./node_modules/bulma'] },
+      ),
     ],
   },
   resolve: {
@@ -50,8 +60,6 @@ const BASE_CONFIG = {
 const DEV_CONFIG = {
   ...BASE_CONFIG,
   output: {
-    path: PATH.TMP,
-    filename: './rest-events.bundle.js',
     publicPath: '/',
   },
   devtool: 'inline-source-map',
@@ -59,9 +67,7 @@ const DEV_CONFIG = {
     port: 3000,
     historyApiFallback: true,
   },
-  plugins: [
-    htmlPlugin, definePlugin,
-  ],
+  plugins: [new HtmlWebpackPlugin({ template: PATH.INDEX_HTML }), definePlugin],
 };
 
 const PROD_CONFIG = {
@@ -71,12 +77,14 @@ const PROD_CONFIG = {
     filename: './rest-events.bundle.js',
   },
   plugins: [
-    htmlPlugin, definePlugin,
+    new HtmlWebpackPlugin({ template: PATH.INDEX_HTML, inject: 'head' }),
+    definePlugin,
     new MiniCssExtractPlugin(),
     new ScriptExtHtmlWebpackPlugin({
-      defaultAttribute: 'async', preload: /\.js$/,
+      defaultAttribute: 'async',
+      preload: /\.js$/,
     }),
-    ...process.env.INSPECT ? new BundleAnalyzerPlugin() : [],
+    // new BundleAnalyzerPlugin(), // uncomment to validate bundle
   ],
 };
 

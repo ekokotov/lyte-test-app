@@ -1,3 +1,13 @@
- .root {
-   align-self: flex-start;
- }
+.root {
+  align-self: flex-start;
+}
+
+.event__list {
+  position: relative;
+}
+
+.loading {
+  position: absolute;
+  top: -30px;
+  width: 100%;
+}

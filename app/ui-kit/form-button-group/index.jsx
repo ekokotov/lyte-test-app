@@ -10,7 +10,8 @@ class FormButtonGroup extends PureComponent {
       <div className="control">
         <div className="buttons has-addons are-small">
           {this.props.values.map((value) => (
-            <span
+            <button
+              type="button"
               key={value}
               className={classNames('button', {
                 'is-active': this.props.currentValue === value,
@@ -18,7 +19,7 @@ class FormButtonGroup extends PureComponent {
               onClick={this.onChange(value)}
             >
               {value}
-            </span>
+            </button>
           ))}
         </div>
       </div>

@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import styles from './style.m.scss';
 import { formatEventPriceRange, formatReadableEventStartDate } from '../helper';
 
-const DEFAULT_LOGO_PLACEHOLDER = 'https://via.placeholder.com/400x200?text=No%20Event%20Logo';
+const DEFAULT_LOGO_PLACEHOLDER = 'https://via.placeholder.com/400x200?text=No%20Event%20Logo'; // use dummy component instead in future
 
 @withRouter
 class EventListItem extends Component {

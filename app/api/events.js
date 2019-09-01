@@ -24,5 +24,4 @@ class EventsAPI {
     update = (id, data, options) => APIRequest.request(`${process.env.API_EVENTS_LIST_PATH}/${id}`, 'PATCH', data, options);
 }
 
-
 export default new EventsAPI();

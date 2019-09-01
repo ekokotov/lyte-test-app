@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import style from './style.m.scss';
 import {
   formatEventDateRange,
@@ -11,7 +11,6 @@ import {
 } from '../../events/event-list/helper';
 import Divider from '../../../ui-kit/card-divider';
 
-@inject('AuthStore')
 @withRouter
 @observer
 class EventCard extends Component {
@@ -81,7 +80,7 @@ class EventCard extends Component {
               <span>&nbsp;Buy ticket</span>
             </a>
           )}
-          {this.props.AuthStore.token && (
+          {this.props.authenticated && (
             <Link to={`${location.pathname}/edit`} className="card-footer-item">
               <span className="icon is-small">
                 <i className="icon ion-md-create" />
@@ -98,8 +97,12 @@ class EventCard extends Component {
 
 EventCard.propTypes = {
   event: PropTypes.object.isRequired,
-  AuthStore: PropTypes.object,
+  authenticated: PropTypes.bool,
   location: PropTypes.object,
 };
+
+EventCard.defaultProps = {
+  authenticated: false,
+}
 
 export default EventCard;

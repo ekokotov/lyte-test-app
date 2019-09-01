@@ -1,44 +1,37 @@
-import React, { Component, Fragment } from 'react';
-import { inject, observer } from 'mobx-react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '../../../ui-kit/pagination';
 import EventListItem from './event-list-item';
-import Loading from '../../../ui-kit/loading';
 
-@inject('EventStore')
-@observer
-class EventList extends Component {
-  render() {
-    const {
-      events, filters, setPage, inProgress, totalEvents, currentPage,
-    } = this.props.EventStore;
-    const pages = totalEvents / filters.limit;
+function EventList(props) {
+  const {
+    events, onPageChange, totalPages, currentPage, inProgress,
+  } = props;
 
-    if (inProgress) {
-      return <Loading title="Loading Events..." />;
-    } if (!events.length) {
-      return <div className="no_results">No results...</div>;
-    }
+  if (!events.length && !inProgress) {
+    return <div className="no_results">No results...</div>;
+  }
 
-    return (
-      <>
+  return (
+    <>
+      {!!events.length && (
         <div className="list is-hoverable">
           {events.map((event) => <EventListItem event={event} key={event.id} />)}
         </div>
-        {pages > 1 && (
-        <Pagination
-          pageCount={pages}
-          onPageChange={setPage}
-          forcePage={currentPage}
-        />
-        )}
-      </>
-    );
-  }
+      )}
+      {totalPages > 1 && (
+        <Pagination pageCount={totalPages} onPageChange={onPageChange} forcePage={currentPage} />
+      )}
+    </>
+  );
 }
 
-EventList.wrappedComponent.propTypes = {
-  EventStore: PropTypes.object.isRequired,
+EventList.propTypes = {
+  totalPages: PropTypes.number.isRequired,
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  inProgress: PropTypes.bool.isRequired,
 };
 
 export default EventList;
