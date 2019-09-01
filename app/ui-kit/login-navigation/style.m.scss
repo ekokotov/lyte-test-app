@@ -1,5 +1,13 @@
 @import "~bulma/sass/utilities/initial-variables";
 
-:global(.breadcrumb a).link__active  {
-    color: $grey;
+// override safari issue with THEME cascading
+:global {
+  .breadcrumb a {
+      color: $blue !important;
+  }
+
+  .breadcrumb a.active {
+      color: $grey !important;
+  }
+
 }

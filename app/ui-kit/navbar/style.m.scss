@@ -1,11 +1,12 @@
 @import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/mixins";
 
 :global {
   .hero .navbar {
     background: $yellow;
   }
 
-  @media screen and (max-width: 1023px) {
+  @include until($desktop) {
     .hero.is-primary .navbar-menu, .hero.is-primary a.navbar-item:hover {
       background-color: white;
       color: black;
@@ -27,6 +28,10 @@
 .nav_active {
   background-color: #e4bf29;
   font-weight: bold;
+
+  @include until($desktop) {
+    background-color: $grey-lighter;
+  }
 
   &:focus {
     background-color: inherit;
