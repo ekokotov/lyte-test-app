@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const isPROD = process.env.NODE_ENV === 'production';
 const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
@@ -89,6 +90,10 @@ const PROD_CONFIG = {
     new CopyPlugin([
       { from: PATH.FAVICON_SOURCE, to: PATH.BUILD },
     ]),
+    ...process.env.GZIP ? [new CompressionPlugin({
+      filename: '[path][query]',
+      test: /\.(js|css)$/,
+    })] : [],
     // new BundleAnalyzerPlugin(), // uncomment to validate bundle
   ],
 };
