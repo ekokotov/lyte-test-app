@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isPROD = process.env.NODE_ENV === 'production';
 const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
@@ -12,7 +13,7 @@ const stylesProcessing = (target, where, cssOptions, sassOptions) => ({
   include: where,
   use: [
     { loader: isPROD ? MiniCssExtractPlugin.loader : 'style-loader' },
-    { loader: 'css-loader', options: cssOptions, },
+    { loader: 'css-loader', options: cssOptions },
     { loader: 'sass-loader', options: sassOptions },
   ],
 });
@@ -23,6 +24,7 @@ const PATH = {
   BUILD: path.resolve(__dirname, 'dist'),
   TMP: path.resolve(__dirname, '.tmp'),
   THEME: path.resolve(__dirname, 'theme'),
+  FAVICON_SOURCE: path.resolve(__dirname, 'favicons'),
 };
 const definePlugin = new webpack.DefinePlugin({
   'process.env': JSON.stringify(dotenv.config().parsed),
@@ -84,6 +86,9 @@ const PROD_CONFIG = {
       defaultAttribute: 'async',
       preload: /\.js$/,
     }),
+    new CopyPlugin([
+      { from: PATH.FAVICON_SOURCE, to: PATH.BUILD },
+    ]),
     // new BundleAnalyzerPlugin(), // uncomment to validate bundle
   ],
 };
