@@ -1,7 +1,16 @@
 {
   "presets": [
-    "@babel/preset-env",
-    "@babel/preset-react"
+    ["@babel/preset-env",
+      {
+        "debug": true,
+        "targets": {
+          "chrome": "70",
+          "firefox": "60",
+          "edge": "16",
+          "safari": "12"
+        }
+      }],
+    ["@babel/preset-react"]
   ],
   "plugins": [
     "transform-react-remove-prop-types",

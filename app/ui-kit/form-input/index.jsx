@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
+import isArray from 'lodash/isArray';
 import { observer } from 'mobx-react';
 
 @observer
@@ -9,7 +10,7 @@ class FormInput extends Component {
   onInputHandler = (e) => this.props.onChange(e.target.value);
 
   render() {
-    const hasErrors = Boolean(this.props.errors && this.props.errors.length);
+    const hasErrors = Boolean(isArray(this.props.errors) && this.props.errors.length);
     const inputProps = omit(this.props, ['innerRef', 'errors', 'horizontal']);
 
     return (
