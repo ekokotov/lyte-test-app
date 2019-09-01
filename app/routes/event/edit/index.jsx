@@ -48,9 +48,9 @@ class EditEvent extends Component {
     }
 
     return (
-      <div className="container">
+      <div className={classNames('container', style.root)}>
         <div className="columns is-centered">
-          <div className={classNames('column', 'is-narrow', style.root)}>
+          <div className={classNames('column', 'is-narrow', style.column)}>
             <h2 className="title">Edit event</h2>
             <form className="box" onSubmit={this.updateEvent}>
               <FormInput placeholder="min length: 1, max length: 255" name="name" label="Event name" type="text" size="normal" minLength="1" maxLength="255" value={event.name} onChange={this.editEvent('name')} errors={errors.name} />

@@ -1,9 +1,14 @@
 @import "~bulma/sass/utilities/initial-variables";
 
 .root {
+  align-self: flex-start;
+}
+
+.column {
   max-width: 600px;
   width: 100%;
 }
+
 .price__block {
   background-color: rgba($turquoise, .2);
   padding: 15px;
