@@ -1,9 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
+import { observer } from 'mobx-react';
 
-class FormInput extends PureComponent {
+@observer
+class FormInput extends Component {
   onInputHandler = (e) => this.props.onChange(e.target.value);
 
   render() {

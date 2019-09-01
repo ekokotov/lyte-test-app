@@ -24,8 +24,8 @@ FormButton.propTypes = {
   colorStyle: PropTypes.oneOf(['primary', 'warning', 'danger', 'info', 'success', 'link', 'light']),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
+    PropTypes.node,
+  ]),
 };
 
 FormButton.defaultProps = {

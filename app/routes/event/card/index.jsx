@@ -103,6 +103,6 @@ EventCard.propTypes = {
 
 EventCard.defaultProps = {
   authenticated: false,
-}
+};
 
 export default EventCard;
