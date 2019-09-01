@@ -5,7 +5,7 @@
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "build-gzip": "cross-env NODE_ENV=production GZIP=true webpack --mode production",
-    "run-static-prod": "npm run build && cd dist && http-server -g --proxy http://localhost:8080/index.html?"
+    "run-static-prod": "npm run build && cd dist && http-server --proxy http://localhost:8080/index.html?"
   },
   "dependencies": {
     "bulma": "^0.7.5",
