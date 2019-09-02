@@ -29,17 +29,17 @@ class SignIn extends Component {
   };
 
   render() {
-    const { AuthStore } = this.props;
+    const { AuthStore: { errors, inProgress } } = this.props;
 
     return (
       <div className="container">
         <div className="column is-4 is-offset-4">
           <div className="box">
-            <FormError errors={AuthStore.errors} />
+            <FormError errors={errors} />
             <form onSubmit={this.submit}>
-              <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={AuthStore.errors.email} />
-              <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={AuthStore.errors.password} />
-              <FormButton type="submit" colorStyle="warning" isDisabled={AuthStore.inProgress} isLoading={AuthStore.inProgress}>
+              <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={errors && errors.email} />
+              <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={errors && errors.password} />
+              <FormButton type="submit" colorStyle="warning" isDisabled={inProgress} isLoading={inProgress}>
                     Login
               </FormButton>
             </form>

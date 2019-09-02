@@ -13,7 +13,7 @@ class EventStore {
 
   @observable inProgress = true;
 
-  @observable errors = {};
+  @observable errors;
 
   @observable events = [];
 
@@ -23,47 +23,53 @@ class EventStore {
 
   @observable currentPage = 0;
 
-  @action setPage = (newPage) => this.currentPage = parseInt(newPage.selected, 10);
+  @action setPage = (newPage) => (this.currentPage = parseInt(newPage.selected, 10));
 
-  @action setLimit = (newLimit) => this.filters.limit = parseInt(newLimit, 10);
+  @action setLimit = (newLimit) => (this.filters.limit = parseInt(newLimit, 10));
 
-  @action setSearchQuery = (query) => this.filters.searchQuery = query;
+  @action setSearchQuery = (query) => (this.filters.searchQuery = query);
 
-  @action setMinPrice = (price) => this.filters.minPrice = price;
+  @action setMinPrice = (price) => (this.filters.minPrice = price);
 
-  @action setMaxPrice = (price) => this.filters.maxPrice = price;
+  @action setMaxPrice = (price) => (this.filters.maxPrice = price);
+
+  @computed get hasErrors() {
+    return Boolean(this.errors && Object.keys(this.errors).length);
+  }
 
   constructor(rootStore) {
     this.rootStore = rootStore;
     this.reset();
     // to send request on any filter change with throttling
     // or -> deepObserve(this.filters, this.getEvents);
-    reaction(() => entries(this.filters), () => {
-      this.currentPage = 0;
-      this.getEvents();
-    });
+    reaction(
+      () => entries(this.filters),
+      () => {
+        this.currentPage = 0;
+        this.getEvents();
+      },
+    );
     reaction(() => this.currentPage, this.getEvents);
   }
 
   @action
-  setErrors = (error) => this.errors = error.payload || error;
+  setErrors = (error) => (this.errors = error.payload || { details: error.message });
 
   @action
-  clearErrors = () => this.errors = {};
-
-  @computed get hasGlobalError() {
-    return Boolean(this.errors && this.errors instanceof Error);
-  }
+  clearErrors = () => (this.errors = null);
 
   @action
-  updateSelectedEvent = (prop, value) => this.selectedEvent[prop] = value;
+  updateSelectedEvent = (prop, value) => (this.selectedEvent[prop] = value);
 
   @action
   getEvents = debounce(async () => {
     this.inProgress = true;
     this.clearErrors();
     try {
-      const response = await EventsAPI.getAll({ ...this.filters, currentPage: this.currentPage });
+      const response = await EventsAPI.getAll({
+        ...this.filters,
+        currentPage: this.currentPage,
+      });
 
       this.events = response.results;
       this.totalEvents = response.count;
@@ -80,7 +86,7 @@ class EventStore {
     this.clearErrors();
     try {
       this.selectedEvent = await EventsAPI.getById(eventId);
-      return this.selectedEvent;
+      // return this.selectedEvent;
     } catch (err) {
       this.setErrors(err);
     } finally {
@@ -93,7 +99,9 @@ class EventStore {
     this.inProgress = true;
     this.clearErrors();
     try {
-      return await EventsAPI.update(eventId, data, { authToken: this.rootStore.AuthStore.token });
+      return await EventsAPI.update(eventId, data, {
+        authToken: this.rootStore.AuthStore.token,
+      });
     } catch (err) {
       this.setErrors(err);
     } finally {

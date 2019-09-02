@@ -30,9 +30,10 @@ class Events extends Component {
 
   render() {
     const {
-      hasGlobalError, inProgress, events, totalEvents, filters, currentPage, setPage, reset,
+      hasErrors, inProgress, events, totalEvents, filters, currentPage, setPage, reset,
       setLimit, setMaxPrice, setMinPrice, setSearchQuery,
     } = this.props.EventStore;
+
     return (
       <div className={classNames('container', style.root)}>
 
@@ -61,7 +62,7 @@ class Events extends Component {
           </div>
 
         </div>
-        {hasGlobalError && <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>}
+        {hasErrors && <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>}
       </div>
     );
   }

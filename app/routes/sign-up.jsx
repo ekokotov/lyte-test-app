@@ -11,7 +11,7 @@ import { getFormValues } from '../utils/form-data';
 @inject('AuthStore')
 @withRouter
 @observer
-class Signup extends Component {
+class SignUp extends Component { // extend from sign-in or visa-versa
   componentWillUnmount() {
     this.props.AuthStore.clearErrors();
   }
@@ -27,16 +27,17 @@ class Signup extends Component {
   };
 
   render() {
-    const { AuthStore } = this.props;
+    const { AuthStore: { errors, inProgress } } = this.props;
+
     return (
       <div className="container">
         <div className="column is-4 is-offset-4">
           <div className="box">
-            <FormError errors={AuthStore.errors} />
+            <FormError errors={errors} />
             <form onSubmit={this.submit}>
-              <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={AuthStore.errors.email} />
-              <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={AuthStore.errors.password} />
-              <FormButton type="submit" colorStyle="info" isDisabled={AuthStore.inProgress} isLoading={AuthStore.inProgress}>
+              <FormInput label="Email" name="email" placeholder="Your email" type="email" errors={errors && errors.email} />
+              <FormInput label="Password" name="password" placeholder="Your password" type="password" errors={errors && errors.password} />
+              <FormButton type="submit" colorStyle="info" isDisabled={inProgress} isLoading={inProgress}>
                     Register
               </FormButton>
             </form>
@@ -48,9 +49,9 @@ class Signup extends Component {
   }
 }
 
-Signup.wrappedComponent.propTypes = {
+SignUp.wrappedComponent.propTypes = {
   history: PropTypes.object.isRequired,
   AuthStore: PropTypes.object.isRequired,
 };
 
-export default Signup;
+export default SignUp;

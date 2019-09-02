@@ -5,7 +5,7 @@ import style from './style.m.scss';
 import { observer } from 'mobx-react';
 
 const FormError = (props) => {
-  const errors = props.errors.non_field_errors;
+  const errors = props.errors && props.errors.non_field_errors;
   const nonFieldErrors = errors && errors.length;
 
   if (!nonFieldErrors) {
@@ -15,11 +15,7 @@ const FormError = (props) => {
 };
 
 FormError.propTypes = {
-  errors: PropTypes.object,
-};
-
-FormError.defaultProps = {
-  errors: {},
+  errors: PropTypes.object.isRequired,
 };
 
 export default observer(FormError);

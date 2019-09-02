@@ -30,12 +30,16 @@ class Event extends Component {
   };
 
   render() {
-    const { selectedEvent: event, inProgress, hasGlobalError } = this.props.EventStore;
-    // TODO: export to getDeliveredStateFromProps for better performance
+    const { selectedEvent: event, inProgress, hasErrors } = this.props.EventStore;
 
-    if (inProgress || !event) {
+    if (hasErrors) {
+      return <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>;
+    }
+
+    if ((inProgress && !hasErrors) || !event) {
       return <Loading title="Loading Event..." />;
     }
+
     return (
       <div className={classNames('container', style.root)}>
         <div className="columns">
@@ -44,7 +48,6 @@ class Event extends Component {
           </div>
           {this.renderEventDescription(event)}
         </div>
-        {hasGlobalError && <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>}
       </div>
     );
   }
