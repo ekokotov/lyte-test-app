@@ -1,7 +1,7 @@
 # Lyte REST API test client
 > small Mobx/React client of [api.my-events.site](http://api.my-events.site/api/)
 
-[![Build Status](https://api.travis-ci.com/ekokotov/lyte-test-app.svg?branch=master)](https://travis-ci.com/ekokotov/redux2hooks)
+[![Build Status](https://api.travis-ci.com/ekokotov/lyte-test-app.svg?branch=master)](https://travis-ci.com/ekokotov/lyte-test-app)
 
 ## Scripts
 
