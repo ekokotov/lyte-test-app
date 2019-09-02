@@ -19,9 +19,9 @@ class EventsAPI {
       return APIRequest.request(process.env.API_EVENTS_SEARCH_PATH, 'GET', params);
     };
 
-    getById = (id) => APIRequest.request(`${process.env.API_EVENTS_LIST_PATH}/${id}`, 'GET');
+    getById = (id) => APIRequest.request(`${process.env.API_EVENTS_LIST_PATH}/${id}/`, 'GET');
 
-    update = (id, data, options) => APIRequest.request(`${process.env.API_EVENTS_LIST_PATH}/${id}`, 'PATCH', data, options);
+    update = (id, data, options) => APIRequest.request(`${process.env.API_EVENTS_LIST_PATH}/${id}/`, 'PATCH', data, options);
 }
 
 export default new EventsAPI();

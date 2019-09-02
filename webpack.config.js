@@ -77,7 +77,7 @@ const PROD_CONFIG = {
   ...BASE_CONFIG,
   output: {
     path: PATH.BUILD,
-    filename: './rest-events.bundle.js',
+    filename: 'rest-events.bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({ template: PATH.INDEX_HTML, inject: 'head' }),

@@ -1,12 +1,15 @@
 @import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/mixins";
 
 .root {
   align-self: flex-start;
 }
 
 .column {
-  max-width: 600px;
-  width: 100%;
+  @include from($desktop) {
+    max-width: 600px;
+    width: 100%;
+  }
 }
 
 .price__block {

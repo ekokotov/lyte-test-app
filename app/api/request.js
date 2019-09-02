@@ -11,7 +11,7 @@ class APIRequest {
         'Content-Type': 'application/json',
         ...options.authToken && { Authorization: `Token ${options.authToken}` },
       },
-      mode: 'cors',
+      // mode: 'cors',
     };
 
     if (['POST', 'PATCH'].includes(method.toUpperCase())) {
