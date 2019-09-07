@@ -28,7 +28,7 @@ npm run run-static-prod
 ## Dependencies
 - React@16 with React-dom@6
 - Mobx@5 with Mobx-react@5
-- react-router-dom@5 (for routing)
+- react-router-dom@5 (for routing) / BTW please check my other branch with [mobx-router](https://github.com/ekokotov/lyte-test-app/tree/mobx-router).
 - react-paginate@6 (for events pagination)
 - classnames@2 (conditional styles and classes)
 - date-fns@2 (format date and time, modular alternative to moment.js)
