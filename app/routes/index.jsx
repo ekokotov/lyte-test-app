@@ -15,12 +15,12 @@ const Routes = {
   signUp: new Route({
     path: '/sign-up',
     component: <SignUp />,
-    onExit: (router, params, store) => store.AuthStore.clearErrors,
+    onExit: (router, params, store) => store.AuthStore.clearErrors(),
   }),
   signIn: new Route({
     path: '/sign-in',
     component: <SignIn />,
-    onExit: (router, params, store) => store.AuthStore.clearErrors,
+    onExit: (router, params, store) => store.AuthStore.clearErrors(),
   }),
   event: new Route({
     path: '/event/:eventId',

@@ -4,6 +4,7 @@ import FormError from '../form-error';
 import FormInput from '../form-input';
 import FormButton from '../form-button';
 import Navigation from '../login-navigation';
+import { observer } from 'mobx-react';
 
 function LoginForm(props) {
   const loginErrors = props.errors && props.errors.email;
@@ -45,4 +46,4 @@ LoginForm.defaultProps = {
   submitBtnStyle: 'primary',
 };
 
-export default LoginForm;
+export default observer(LoginForm);
