@@ -48,7 +48,7 @@ class AuthStore {
     this.clearErrors();
     try {
       await AuthAPI.register(email, password);
-      this.signIn({ email, password });
+      await this.signIn({ email, password });
       this.rootStore.router.go(Routes.home);
     } catch (err) {
       this.setErrors(err);

@@ -10,7 +10,12 @@ const Routes = {
   home: new Route({
     path: '/',
     component: <Events />,
-    onEnter: (router, params, store) => store.EventStore.getEvents(),
+    beforeEnter(router, params, store) {
+      if (store.EventStore.events.length) {
+        return true;
+      }
+      return store.EventStore.getEvents();
+    },
   }),
   signUp: new Route({
     path: '/sign-up',
@@ -25,7 +30,12 @@ const Routes = {
   event: new Route({
     path: '/event/:eventId',
     component: <Event />,
-    beforeEnter: (router, params, store) => store.EventStore.getById(params.eventId),
+    beforeEnter(router, params, store) {
+      if (store.EventStore.selectedEvent && store.EventStore.selectedEvent.id === params.eventId) {
+        return true;
+      }
+      return store.EventStore.getById(params.eventId);
+    },
   }),
   eventEdit: new Route({
     path: '/event/:eventId/edit',
@@ -35,7 +45,10 @@ const Routes = {
         store.AuthStore.redirectToLogin();
         return false;
       }
-      store.EventStore.getById(params.eventId);
+      if (store.EventStore.selectedEvent && store.EventStore.selectedEvent.id === params.eventId) {
+        return true;
+      }
+      return store.EventStore.getById(params.eventId);
     },
   }),
 };
