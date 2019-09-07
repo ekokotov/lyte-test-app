@@ -23,7 +23,6 @@ class Events extends Component {
       ) : null;
   }
 
-
   render() {
     const {
       hasErrors, inProgress, events, totalEvents, filters, currentPage, setPage, reset,
