@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import AuthTokenService from '../../utils/token-service';
 import AuthAPI from '../../api/auth';
+import Routes from '../../routes';
 
 class AuthStore {
   @observable inProgress = false;
@@ -16,6 +17,8 @@ class AuthStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
+
+  redirectToLogin = () => this.rootStore.router.go(Routes.signIn);
 
   @action
   setErrors = (error) => (this.errors = error.payload || { details: error.message });
@@ -45,7 +48,8 @@ class AuthStore {
     this.clearErrors();
     try {
       await AuthAPI.register(email, password);
-      return this.signIn({ email, password });
+      this.signIn({ email, password });
+      this.rootStore.router.go(Routes.home);
     } catch (err) {
       this.setErrors(err);
     } finally {
@@ -60,7 +64,7 @@ class AuthStore {
     try {
       const resp = await AuthAPI.login(email, password);
       this.setAuth(resp.token);
-      return resp.token;
+      this.rootStore.router.go(Routes.home);
     } catch (err) {
       this.setErrors(err);
     } finally {

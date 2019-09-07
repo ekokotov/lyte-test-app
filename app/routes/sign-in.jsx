@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Navigation from '../ui-kit/login-navigation';
@@ -9,23 +8,13 @@ import FormButton from '../ui-kit/form-button';
 import { getFormValues } from '../utils/form-data';
 
 @inject('AuthStore')
-@withRouter
 @observer
 class SignIn extends Component {
-  componentWillUnmount() {
-    this.props.AuthStore.clearErrors();
-  }
-
-  submit = async (event) => {
+  submit = (event) => {
     event.preventDefault();
     // BTW, we can use Refs in this case
     const formData = getFormValues(event.target);
-
-    const token = await this.props.AuthStore.signIn(formData);
-
-    if (token) {
-      this.props.history.push('/event');
-    }
+    this.props.AuthStore.signIn(formData);
   };
 
   render() {
@@ -52,7 +41,6 @@ class SignIn extends Component {
 }
 
 SignIn.wrappedComponent.propTypes = {
-  history: PropTypes.object.isRequired,
   AuthStore: PropTypes.object.isRequired,
 };
 

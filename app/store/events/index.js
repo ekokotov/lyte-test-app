@@ -7,6 +7,7 @@ import {
   DEFAULT_EVENT_FILTER_VALUES,
   SEARCH_EVENTS_DEBOUNCE_DELAY,
 } from './const';
+import Routes from '../../routes';
 
 class EventStore {
   totalEvents = 0;
@@ -86,7 +87,7 @@ class EventStore {
     this.clearErrors();
     try {
       this.selectedEvent = await EventsAPI.getById(eventId);
-      // return this.selectedEvent;
+      return this.selectedEvent;
     } catch (err) {
       this.setErrors(err);
     } finally {
@@ -99,9 +100,8 @@ class EventStore {
     this.inProgress = true;
     this.clearErrors();
     try {
-      return await EventsAPI.update(eventId, data, {
-        authToken: this.rootStore.AuthStore.token,
-      });
+      await EventsAPI.update(eventId, data, { authToken: this.rootStore.AuthStore.token });
+      this.rootStore.router.go(Routes.event, { eventId });
     } catch (err) {
       this.setErrors(err);
     } finally {

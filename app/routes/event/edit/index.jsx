@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import style from './style.m.scss';
 import FormInput from '../../../ui-kit/form-input';
@@ -9,30 +8,17 @@ import FormButton from '../../../ui-kit/form-button';
 import { getFormValues } from '../../../utils/form-data';
 import Loading from '../../../ui-kit/loading';
 import Notification from '../../../ui-kit/notification';
+import Routes from '../../index';
+import Link from '../../../ui-kit/route-link';
 
 @inject('EventStore')
-@withRouter
 @observer
 class EditEvent extends Component {
-  componentDidMount() {
-    const { EventStore } = this.props;
-    const { eventId } = this.props.match.params;
-    if (!EventStore.selectedEvent) {
-      EventStore.getById(eventId);
-    }
-  }
-
-  updateEvent = async (e) => {
+  updateEvent = (e) => {
     e.preventDefault();
-    const { EventStore, match: { params: { eventId } } } = this.props;
-    const updatedEvent = await EventStore.updateEvent(eventId, getFormValues(e.target));
-
-    if (updatedEvent) {
-      this.props.history.push(`/event/${eventId}`);
-    }
+    const { EventStore } = this.props;
+    EventStore.updateEvent(EventStore.selectedEvent.id, getFormValues(e.target));
   };
-
-  cancelUpdate = () => this.props.history.push(`/event/${this.props.match.params.eventId}`);
 
   editEvent = (e) => this.props.EventStore.updateSelectedEvent(e.target.name, e.target.value);
 
@@ -72,9 +58,11 @@ class EditEvent extends Component {
               </div>
 
               <div className="field is-grouped">
-                <p className="control is-expanded" onClick={this.cancelUpdate}>
-                  <FormButton type="button" colorStyle="light">Cancel</FormButton>
-                </p>
+                <Link route={Routes.event} params={{ eventId: event.id }} className="control is-expanded">
+                  <FormButton type="button" colorStyle="light">
+                      Cancel
+                  </FormButton>
+                </Link>
                 <p className="control is-expanded">
                   <FormButton type="submit" colorStyle="warning" isDisabled={inProgress} isLoading={inProgress}>
                     Update
@@ -92,8 +80,6 @@ class EditEvent extends Component {
 }
 
 EditEvent.wrappedComponent.propTypes = {
-  history: PropTypes.object,
-  match: PropTypes.object.isRequired,
   EventStore: PropTypes.object.isRequired,
 };
 

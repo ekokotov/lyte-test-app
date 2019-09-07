@@ -11,10 +11,6 @@ import Loading from '../../ui-kit/loading';
 @inject('EventStore')
 @observer
 class Events extends Component {
-  componentDidMount() {
-    this.props.EventStore.getEvents();
-  }
-
   renderEventsLoading() {
     return this.props.EventStore.inProgress
       ? (

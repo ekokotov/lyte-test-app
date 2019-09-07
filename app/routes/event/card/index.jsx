@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link, withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import style from './style.m.scss';
 import {
@@ -10,12 +9,13 @@ import {
   formatReadableEventStartDate,
 } from '../../events/event-list/helper';
 import Divider from '../../../ui-kit/card-divider';
+import Link from '../../../ui-kit/route-link';
+import Routes from '../../index';
 
-@withRouter
 @observer
 class EventCard extends Component {
   render() {
-    const { event, location } = this.props;
+    const { event } = this.props;
 
     return (
       <div className={classNames('card', 'is-shadowless', style.card)}>
@@ -81,7 +81,7 @@ class EventCard extends Component {
             </a>
           )}
           {this.props.authenticated && (
-            <Link to={`${location.pathname}/edit`} className="card-footer-item">
+            <Link route={Routes.eventEdit} params={{ eventId: event.id }} className="card-footer-item">
               <span className="icon is-small">
                 <i className="icon ion-md-create" />
               </span>
@@ -89,7 +89,6 @@ class EventCard extends Component {
             </Link>
           )}
         </footer>
-
       </div>
     );
   }
@@ -98,7 +97,6 @@ class EventCard extends Component {
 EventCard.propTypes = {
   event: PropTypes.object.isRequired,
   authenticated: PropTypes.bool,
-  location: PropTypes.object,
 };
 
 EventCard.defaultProps = {

@@ -1,10 +1,12 @@
 import AuthStore from './auth';
 import EventStore from './events';
+import RouterStore from './router';
 
 class RootStore {
   constructor() {
     this.AuthStore = new AuthStore(this);
     this.EventStore = new EventStore(this);
+    this.router = new RouterStore(this);
   }
 }
 
