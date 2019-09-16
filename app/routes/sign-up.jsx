@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
+import { connect } from 'react-redux';
 import Navigation from '../ui-kit/login-navigation';
 import FormError from '../ui-kit/form-error';
 import FormInput from '../ui-kit/form-input';
 import FormButton from '../ui-kit/form-button';
 import { getFormValues } from '../utils/form-data';
+import { reset, startSignUp } from '../store/auth/actions';
 
-@inject('AuthStore')
-@withRouter
-@observer
 class SignUp extends Component { // extend from sign-in or visa-versa
-  componentWillUnmount() {
-    this.props.AuthStore.clearErrors();
-  }
-
-  submit = async (event) => {
-    event.preventDefault();
-    const formData = getFormValues(event.target);
-    const token = await this.props.AuthStore.signUp(formData);
-
-    if (token) {
+  componentDidUpdate() {
+    if (this.props.isAuthenticated) {
       this.props.history.push('/event');
     }
+  }
+
+  componentWillUnmount = () => this.props.reset();
+
+  submit = (event) => {
+    event.preventDefault();
+
+    this.props.signUp(getFormValues(event.target));
   };
 
   render() {
-    const { AuthStore: { errors, inProgress } } = this.props;
+    const { errors, inProgress } = this.props;
 
     return (
       <div className="container">
@@ -49,9 +47,20 @@ class SignUp extends Component { // extend from sign-in or visa-versa
   }
 }
 
-SignUp.wrappedComponent.propTypes = {
+SignUp.propTypes = {
   history: PropTypes.object.isRequired,
-  AuthStore: PropTypes.object.isRequired,
+  errors: PropTypes.object,
+  inProgress: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
+  reset: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
 };
 
-export default SignUp;
+export default connect((store) => ({
+  inProgress: store.auth.inProgress,
+  errors: store.auth.errors,
+  isAuthenticated: !!store.auth.token,
+}), {
+  reset,
+  signUp: startSignUp,
+})(withRouter(SignUp));

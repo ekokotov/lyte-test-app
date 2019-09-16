@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
 import Pagination from '../../../ui-kit/pagination';
 import EventListItem from './event-list-item';
 
@@ -35,4 +34,4 @@ EventList.propTypes = {
   inProgress: PropTypes.bool.isRequired,
 };
 
-export default observer(EventList);
+export default EventList;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import EventList from './event-list';
 import EventFilters from './filters';
@@ -8,8 +7,6 @@ import style from './style.m.scss';
 import Notification from '../../ui-kit/notification';
 import Loading from '../../ui-kit/loading';
 
-@inject('EventStore')
-@observer
 class Events extends Component {
   componentDidMount() {
     this.props.EventStore.getEvents();
@@ -68,7 +65,7 @@ class Events extends Component {
   }
 }
 
-Events.wrappedComponent.propTypes = {
+Events.propTypes = {
   EventStore: PropTypes.object.isRequired,
 };
 

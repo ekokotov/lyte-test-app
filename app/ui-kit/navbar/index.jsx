@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { NavLink, withRouter } from 'react-router-dom';
 
-import { inject, observer } from 'mobx-react';
+import { connect } from 'react-redux';
 import style from './style.m.scss';
 
-@inject('AuthStore')
 @withRouter
-@observer
 class Navbar extends Component {
   state={ menuShow: false };
 
@@ -50,7 +48,7 @@ class Navbar extends Component {
           </div>
 
           <div className="navbar-end">
-            {!this.props.AuthStore.token ? (
+            {!this.props.isAuthenticated ? (
               <>
                 <NavLink to="/sign-in" className="navbar-item" activeClassName={style.nav_active}>
                 Sign in
@@ -59,7 +57,7 @@ class Navbar extends Component {
             ) : (
               <div className="navbar-item">
                 <div className="buttons">
-                  <button type="button" className={classNames('button', 'is-outlined', style.logout)} onClick={this.props.AuthStore.logout}>
+                  <button type="button" className={classNames('button', 'is-outlined', style.logout)} onClick={this.props.logout}>
                    Logout
                   </button>
                 </div>
@@ -74,7 +72,12 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  AuthStore: PropTypes.object,
+  isAuthenticated: PropTypes.bool,
+  logout: PropTypes.func.isRequired,
 };
 
-export default Navbar;
+export default connect((store) => ({
+  isAuthenticated: store.token,
+}), {
+  logout() {},
+})(Navbar);

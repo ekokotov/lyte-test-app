@@ -25,10 +25,6 @@
       }
     ],
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["@babel/plugin-proposal-class-properties", { "loose" : true }],
-    ["@babel/plugin-transform-async-to-generator", {
-      "module": "mobx",
-      "method": "flow"
-    }]
+    ["@babel/plugin-proposal-class-properties", { "loose" : true }]
   ]
 }

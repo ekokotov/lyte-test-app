@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
 import style from './style.m.scss';
 import FormInput from '../../../ui-kit/form-input';
 import FormButton from '../../../ui-kit/form-button';
@@ -10,9 +9,7 @@ import { getFormValues } from '../../../utils/form-data';
 import Loading from '../../../ui-kit/loading';
 import Notification from '../../../ui-kit/notification';
 
-@inject('EventStore')
 @withRouter
-@observer
 class EditEvent extends Component {
   componentDidMount() {
     const { EventStore } = this.props;
@@ -91,7 +88,7 @@ class EditEvent extends Component {
   }
 }
 
-EditEvent.wrappedComponent.propTypes = {
+EditEvent.propTypes = {
   history: PropTypes.object,
   match: PropTypes.object.isRequired,
   EventStore: PropTypes.object.isRequired,

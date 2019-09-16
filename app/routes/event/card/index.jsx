@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
-import { observer } from 'mobx-react';
 import style from './style.m.scss';
 import {
   formatEventDateRange,
@@ -12,7 +11,6 @@ import {
 import Divider from '../../../ui-kit/card-divider';
 
 @withRouter
-@observer
 class EventCard extends Component {
   render() {
     const { event, location } = this.props;

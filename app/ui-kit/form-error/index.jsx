@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import style from './style.m.scss';
-import { observer } from 'mobx-react';
 
 const FormError = (props) => {
   const errors = props.errors && props.errors.non_field_errors;
@@ -18,4 +17,4 @@ FormError.propTypes = {
   errors: PropTypes.object.isRequired,
 };
 
-export default observer(FormError);
+export default FormError;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import DOMPurify from 'dompurify';
@@ -9,9 +8,7 @@ import style from './style.m.scss';
 import Loading from '../../ui-kit/loading';
 import Notification from '../../ui-kit/notification';
 
-@inject('EventStore', 'AuthStore')
 @withRouter
-@observer
 class Event extends Component {
   componentDidMount() {
     this.props.EventStore.getById(this.props.match.params.eventId);
@@ -53,7 +50,7 @@ class Event extends Component {
   }
 }
 
-Event.wrappedComponent.propTypes = {
+Event.propTypes = {
   match: PropTypes.object.isRequired,
   EventStore: PropTypes.object.isRequired,
   AuthStore: PropTypes.object.isRequired,

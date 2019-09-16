@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
-import { observer } from 'mobx-react';
 import styles from './style.m.scss';
 import { formatEventPriceRange, formatReadableEventStartDate } from '../helper';
 import { DEFAULT_LOGO_PLACEHOLDER } from './const';
 
-@observer
 @withRouter
 class EventListItem extends Component {
   render() {

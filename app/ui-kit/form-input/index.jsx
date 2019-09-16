@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
 import isArray from 'lodash/isArray';
-import { observer } from 'mobx-react';
 
-@observer
 class FormInput extends Component {
   onInputHandler = (e) => this.props.onChange(e.target.value);
 

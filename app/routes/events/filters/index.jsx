@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { observer } from 'mobx-react';
 import styles from './style.m.scss';
 import FormButtonGroup from '../../../ui-kit/form-button-group';
 import FormInput from '../../../ui-kit/form-input';
@@ -103,4 +102,4 @@ EventFilters.defaultProps = {
   searchLimits: [5, 10, 25, 50],
 };
 
-export default observer(EventFilters);
+export default EventFilters;
