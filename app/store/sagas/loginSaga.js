@@ -20,7 +20,7 @@ export function* loginFlow() {
 
       if (data.token) {
         yield call(AuthTokenService.saveToken, data.token);
-        yield put(finishSignIn(data.token));
+        yield put(finishSignIn(data.token, email));
         yield take(['AUTH/LOGOUT', 'AUTH/SIGN_IN_ERROR']);
         yield call(AuthTokenService.resetToken);
       }

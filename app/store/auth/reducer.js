@@ -1,4 +1,5 @@
 import { combineActions, handleActions } from 'redux-actions';
+import produce from 'immer';
 import AuthTokenService from '../../utils/token-service';
 import {
   errorSignIn,
@@ -13,12 +14,21 @@ const initialState = {
 };
 
 export default handleActions({
-  [reset]: (state) => ({ ...initialState, token: state.token, email: state.email }),
-  [combineActions(startSignIn, startSignUp)]: (state) => ({
-    ...state, inProgress: true, errors: undefined,
+  [reset]: (state) => produce(initialState, (draft) => {
+    draft.token = state.token;
+    draft.email = state.email;
   }),
-  [finishSignIn]: (state, { payload }) => ({
-    ...state, inProgress: false, errors: undefined, ...payload,
+  [combineActions(startSignIn, startSignUp)]: (state) => produce(state, (draft) => {
+    draft.inProgress = true;
+    draft.errors = undefined;
   }),
-  [errorSignIn]: (state, { payload }) => ({ ...state, inProgress: false, errors: payload }),
+  [finishSignIn]: (state, { payload }) => produce(state, (draft) => {
+    draft.inProgress = false;
+    draft.email = payload.email;
+    draft.token = payload.token;
+  }),
+  [errorSignIn]: (state, { payload }) => produce(state, (draft) => {
+    draft.inProgress = false;
+    draft.errors = payload;
+  }),
 }, initialState);

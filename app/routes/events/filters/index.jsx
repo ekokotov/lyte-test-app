@@ -74,7 +74,7 @@ function EventFilters(props) {
         <button
           className="button is-link is-outlined is-fullwidth"
           type="button"
-          onClick={onReset}
+          onClick={() => onReset()}
         >
           Reset all filters
         </button>
@@ -89,6 +89,7 @@ EventFilters.propTypes = {
     minPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     maxPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     limit: PropTypes.number,
+    currentPage: PropTypes.number,
   }).isRequired,
   searchLimits: PropTypes.number,
   onChangeLimit: PropTypes.func.isRequired,

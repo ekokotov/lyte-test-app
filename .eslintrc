@@ -14,8 +14,10 @@
     "react/jsx-props-no-spreading": "off",
     "react/destructuring-assignment": "off",
     "react/state-in-constructor": "off",
+    "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "react/forbid-prop-types": "off",
+    "no-param-reassign": "off",
     "react/require-default-props": "off",
     "linebreak-style": 0
   },

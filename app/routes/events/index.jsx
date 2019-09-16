@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import EventList from './event-list';
 import EventFilters from './filters';
 import style from './style.m.scss';
 import Notification from '../../ui-kit/notification';
 import Loading from '../../ui-kit/loading';
+import {
+  getEvents, setMaxPrice, setLimit, setPage, setMinPrice, setSearchQuery, resetFilters,
+} from '../../store/events/actions';
+import { hasEventsErrors } from '../../store/events/selectors';
 
 class Events extends Component {
   componentDidMount() {
-    this.props.EventStore.getEvents();
+    this.props.getEvents();
   }
 
   renderEventsLoading() {
-    return this.props.EventStore.inProgress
+    return this.props.inProgress
       ? (
         <Loading
           title="Loading Events..."
           className={classNames({
-            [style.loading]: this.props.EventStore.events.length,
+            [style.loading]: this.props.events.length,
           })}
         />
       ) : null;
   }
 
-
   render() {
     const {
-      hasErrors, inProgress, events, totalEvents, filters, currentPage, setPage, reset,
-      setLimit, setMaxPrice, setMinPrice, setSearchQuery,
-    } = this.props.EventStore;
+      hasErrors, inProgress, events, totalEvents, filters,
+    } = this.props;
 
     return (
       <div className={classNames('container', style.root)}>
@@ -38,11 +41,11 @@ class Events extends Component {
           <div className="column menu">
             <EventFilters
               filters={filters}
-              onReset={reset}
-              onChangeLimit={setLimit}
-              onChangeMaxPrice={setMaxPrice}
-              onChangeMinPrice={setMinPrice}
-              onChangeSearchQuery={setSearchQuery}
+              onReset={this.props.resetFilters}
+              onChangeLimit={this.props.setLimit}
+              onChangeMaxPrice={this.props.setMaxPrice}
+              onChangeMinPrice={this.props.setMinPrice}
+              onChangeSearchQuery={this.props.setSearchQuery}
             />
           </div>
 
@@ -51,22 +54,60 @@ class Events extends Component {
 
             <EventList
               totalPages={totalEvents / filters.limit}
-              currentPage={currentPage}
+              currentPage={filters.currentPage}
               events={events}
               inProgress={inProgress}
-              onPageChange={setPage}
+              onPageChange={this.props.setPage}
             />
           </div>
 
         </div>
-        {hasErrors && <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>}
+        {hasErrors
+        && <Notification colorStyle="danger">Sorry, but something went wrong...</Notification>}
       </div>
     );
   }
 }
 
 Events.propTypes = {
-  EventStore: PropTypes.object.isRequired,
+  getEvents: PropTypes.func.isRequired,
+  events: PropTypes.array,
+  inProgress: PropTypes.bool,
+  hasErrors: PropTypes.bool,
+  filters: PropTypes.shape({
+    searchQuery: PropTypes.string,
+    currentPage: PropTypes.number,
+    minPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    maxPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    limit: PropTypes.number,
+  }).isRequired,
+  currentPage: PropTypes.number,
+  totalEvents: PropTypes.number,
+  setPage: PropTypes.func.isRequired,
+  resetFilters: PropTypes.func.isRequired,
+  setLimit: PropTypes.func.isRequired,
+  setMaxPrice: PropTypes.func.isRequired,
+  setMinPrice: PropTypes.func.isRequired,
+  setSearchQuery: PropTypes.func.isRequired,
 };
 
-export default Events;
+Events.defaultProps = {
+  events: [],
+  inProgress: false,
+};
+
+export default connect((store) => ({
+  events: store.events.events,
+  inProgress: store.events.inProgress,
+  hasErrors: hasEventsErrors(store),
+  totalEvents: store.events.totalEvents,
+  filters: store.events.filters,
+}), {
+  getEvents,
+  setMaxPrice,
+  setMinPrice,
+  setPage,
+  setSearchQuery,
+  setLimit,
+  resetFilters,
+})(Events);

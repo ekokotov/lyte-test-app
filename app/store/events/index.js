@@ -37,20 +37,20 @@ class EventStore {
     return Boolean(this.errors && Object.keys(this.errors).length);
   }
 
-  constructor(rootStore) {
-    this.rootStore = rootStore;
-    this.reset();
-    // to send request on any filter change with throttling
-    // or -> deepObserve(this.filters, this.getEvents);
-    reaction(
-      () => entries(this.filters),
-      () => {
-        this.currentPage = 0;
-        this.getEvents();
-      },
-    );
-    reaction(() => this.currentPage, this.getEvents);
-  }
+  // constructor(rootStore) {
+  //   this.rootStore = rootStore;
+  //   this.reset();
+  //   // to send request on any filter change with throttling
+  //   // or -> deepObserve(this.filters, this.getEvents);
+  //   reaction(
+  //     () => entries(this.filters),
+  //     () => {
+  //       this.currentPage = 0;
+  //       this.getEvents();
+  //     },
+  //   );
+  //   reaction(() => this.currentPage, this.getEvents);
+  // }
 
   @action
   setErrors = (error) => (this.errors = error.payload || { details: error.message });
@@ -61,24 +61,24 @@ class EventStore {
   @action
   updateSelectedEvent = (prop, value) => (this.selectedEvent[prop] = value);
 
-  @action
-  getEvents = debounce(async () => {
-    this.inProgress = true;
-    this.clearErrors();
-    try {
-      const response = await EventsAPI.getAll({
-        ...this.filters,
-        currentPage: this.currentPage,
-      });
-
-      this.events = response.results;
-      this.totalEvents = response.count;
-    } catch (err) {
-      this.setErrors(err);
-    } finally {
-      this.inProgress = false;
-    }
-  }, SEARCH_EVENTS_DEBOUNCE_DELAY);
+  // @action
+  // getEvents = debounce(async () => {
+  //   this.inProgress = true;
+  //   this.clearErrors();
+  //   try {
+  //     const response = await EventsAPI.getAll({
+  //       ...this.filters,
+  //       currentPage: this.currentPage,
+  //     });
+  //
+  //     this.events = response.results;
+  //     this.totalEvents = response.count;
+  //   } catch (err) {
+  //     this.setErrors(err);
+  //   } finally {
+  //     this.inProgress = false;
+  //   }
+  // }, SEARCH_EVENTS_DEBOUNCE_DELAY);
 
   @action
   getById = async (eventId) => {
@@ -110,11 +110,11 @@ class EventStore {
   };
 
   // we need this method to reset event filters view
-  @action
-  reset = () => {
-    Object.assign(this.filters, DEFAULT_EVENT_FILTER_VALUES);
-    this.clearErrors();
-  };
+  // @action
+  // reset = () => {
+  //   Object.assign(this.filters, DEFAULT_EVENT_FILTER_VALUES);
+  //   this.clearErrors();
+  // };
 }
 
 export default EventStore;
